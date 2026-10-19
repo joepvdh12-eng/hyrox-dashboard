@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hyrox Week 12–18 okt</title>
+<title>Hyrox Week 19–25 okt</title>
 <style>
   :root {
     --bg: #070b14;
@@ -594,8 +594,8 @@
     <div class="badge-row">
       <span class="badge">Hyrox training</span>
     </div>
-    <h1>Hyrox Week 12–18 okt</h1>
-    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · run-tempo &amp; zwakke stations</p>
+    <h1>Hyrox Week 19–25 okt</h1>
+    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · opbouw: racepace 4:20–4:25 &amp; meer stationvolume</p>
 
     <div class="stats-grid">
       <div class="stat-card">
@@ -660,7 +660,7 @@
 <script>
 (function () {
   const RACE = new Date(2026, 10, 29); // 29 nov 2026
-  const STORAGE_KEY = "hyrox-w12-18okt-2026";
+  const STORAGE_KEY = "hyrox-w19-25okt-2026";
 
   const SESSIONS = [
   {
@@ -674,8 +674,8 @@
     "rpe": 7,
     "details": [
       "Bovenlichaam kracht (push/pull)",
-      "Sled push 4×25 m (Pro+)",
-      "Sled pull 4×25 m (Pro+)"
+      "Sled push 5×25 m (Pro+)",
+      "Sled pull 5×25 m (Pro+)"
     ]
   },
   {
@@ -689,14 +689,14 @@
     "rpe": 8,
     "details": [
       "Warm-up 10–15 min",
-      "6×1 km @ 4:25–4:30/km, 90 s rust",
-      "3×25 wall balls (Pro+)"
+      "7×1 km @ 4:20–4:25/km, 75 s rust",
+      "3×30 wall balls (Pro+)"
     ]
   },
   {
     "id": "wo",
     "day": "Wo",
-    "name": "Lower knie/heupvriendelijk",
+    "name": "Lower knie/heupvriendelijk + BBJ",
     "tags": [
       "kracht",
       "benen"
@@ -705,27 +705,14 @@
     "details": [
       "Leg press / box squat 4×6–8",
       "RDL 3×8",
-      "Sandbag lunges 4×20 m",
-      "Farmers 4×50 m zwaar"
+      "Sandbag lunges 4×25 m",
+      "Farmers 4×60 m zwaar",
+      "BBJ 3×10, gecontroleerd landen"
     ]
   },
   {
     "id": "do",
     "day": "Do",
-    "name": "Easy run + mobiliteit",
-    "tags": [
-      "herstel",
-      "Z2"
-    ],
-    "rpe": 4,
-    "details": [
-      "Easy run 35–40 min Z2",
-      "Mobiliteit heup/knie 15–20 min"
-    ]
-  },
-  {
-    "id": "vr",
-    "day": "Vr",
     "name": "Compromised-sim",
     "tags": [
       "hyrox",
@@ -733,12 +720,27 @@
     ],
     "rpe": 9,
     "details": [
-      "4 rondes: 1 km racetempo + station",
+      "5 rondes: 1 km racetempo + station",
+      "Sled push 50 m (Pro+)",
       "BBJ 80 m",
-      "Row 1000 m",
       "Farmers 200 m",
-      "100 wall balls",
-      "Noteer splits"
+      "Sandbag lunges 100 m",
+      "100 wall balls · noteer splits"
+    ]
+  },
+  {
+    "id": "vr",
+    "day": "Vr",
+    "name": "Easy run + mobiliteit",
+    "tags": [
+      "herstel",
+      "Z2"
+    ],
+    "rpe": 3,
+    "details": [
+      "Easy run 30 min Z2",
+      "Mobiliteit heup/knie 15 min",
+      "GGD-vaccinatie om 10:45, dus licht houden"
     ]
   },
   {
@@ -751,8 +753,8 @@
     ],
     "rpe": 3,
     "details": [
-      "8–10 km easy (Z2)",
-      "Of rust als je moe bent"
+      "8 km écht easy (Z2, praattempo)",
+      "Alleen als je je goed voelt na de vaccinatie"
     ]
   },
   {
@@ -770,18 +772,9 @@
   }
 ];
 
-  const STATIONS = [
-    { id: "wb", name: "Wall balls" },
-    { id: "sled", name: "Sled push/pull" },
-    { id: "farmers", name: "Farmers carry" },
-    { id: "bbj", name: "Burpee broad jumps" },
-    { id: "lunges", name: "Lunges" },
-    { id: "row", name: "Roeien" }
-  ];
-
   function defaultState() {
     return {
-      done: { ma: false },
+      done: {},
       stations: {},
       knee: 0,
       hip: 0
