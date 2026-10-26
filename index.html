@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hyrox Week 19–25 okt</title>
+<title>Hyrox Week 26 okt – 1 nov</title>
 <style>
   :root {
     --bg: #070b14;
@@ -575,6 +575,14 @@
     cursor: pointer;
   }
 
+
+  .zone-list { display:flex; flex-direction:column; gap:6px; }
+  .zone-row { display:grid; grid-template-columns:52px 82px 1fr; gap:8px; align-items:center; font-size:0.82rem; padding:7px 10px; border-radius:8px; background:var(--navy-mid); border-left:4px solid var(--zc); }
+  .zone-row b { color:var(--zc); }
+  .zone-row .hr { font-weight:700; color:var(--text); }
+  .zone-row .use { color:var(--text-muted); }
+  .zone-note { font-size:0.75rem; color:var(--text-dim); margin-top:10px; }
+
   footer {
     margin-top: 32px;
     text-align: center;
@@ -594,8 +602,8 @@
     <div class="badge-row">
       <span class="badge">Hyrox training</span>
     </div>
-    <h1>Hyrox Week 19–25 okt</h1>
-    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · opbouw: racepace 4:20–4:25 &amp; meer stationvolume</p>
+    <h1>Hyrox Week 26 okt – 1 nov</h1>
+    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · opbouw: drempel 4:15–4:20 &amp; sim met BBJ, lunges, wall balls</p>
 
     <div class="stats-grid">
       <div class="stat-card">
@@ -626,6 +634,19 @@
 
   <div class="section-title">Sessies deze week</div>
   <div class="sessions" id="sessions"></div>
+
+  <div class="section-title">Hartslagzones</div>
+  <div class="tracker-card">
+    <h3><span class="icon">❤️</span> Jouw zones (drempel ~174)</h3>
+    <div class="zone-list">
+      <div class="zone-row" style="--zc:#93c5fd"><b>Z1</b><span class="hr">&lt; 145</span><span class="use">Herstel, uitlopen</span></div>
+      <div class="zone-row" style="--zc:#60a5fa"><b>Z2</b><span class="hr">145–155</span><span class="use">Duur / easy (houd 140–152 aan)</span></div>
+      <div class="zone-row" style="--zc:#3b82f6"><b>Z3</b><span class="hr">156–163</span><span class="use">Tempo, steady</span></div>
+      <div class="zone-row" style="--zc:#2563eb"><b>Z4</b><span class="hr">164–173</span><span class="use">Drempel, 1 km-intervallen, racetempo</span></div>
+      <div class="zone-row" style="--zc:#1d4ed8"><b>Z5</b><span class="hr">174+</span><span class="use">Max, korte harde stukken</span></div>
+    </div>
+    <p class="zone-note">Eigen berekening uit Strava · max ~195</p>
+  </div>
 
   <div class="section-title">Zwakke stations</div>
   <div class="tracker-grid">
@@ -660,118 +681,128 @@
 <script>
 (function () {
   const RACE = new Date(2026, 10, 29); // 29 nov 2026
-  const STORAGE_KEY = "hyrox-w19-25okt-2026";
+  const STORAGE_KEY = "hyrox-w26okt-1nov-2026";
 
   const SESSIONS = [
-    {
-      "id": "ma",
-      "day": "Ma",
-      "name": "Upper + sled",
-      "tags": [
-        "kracht",
-        "sled"
-      ],
-      "rpe": 7,
-      "details": [
-        "Bovenlichaam kracht (push/pull)",
-        "Sled push 5×25 m (Pro+)",
-        "Sled pull 5×25 m (Pro+)"
-      ]
-    },
-    {
-      "id": "di",
-      "day": "Di",
-      "name": "Zone 2 run met je maat",
-      "tags": [
-        "run",
-        "Z2"
-      ],
-      "rpe": 4,
-      "details": [
-        "Rustige zone 2 run met je beste maat, 40–50 min",
-        "Praattempo, HR ~135–145",
-        "Echt rustig houden, geen tempo"
-      ]
-    },
-    {
-      "id": "wo",
-      "day": "Wo",
-      "name": "Runintervallen + wall balls",
-      "tags": [
-        "run",
-        "racepace"
-      ],
-      "rpe": 8,
-      "details": [
-        "Warm-up 10–15 min",
-        "7×1 km @ 4:20–4:25/km, 75 s rust",
-        "3×30 wall balls (Pro+)"
-      ]
-    },
-    {
-      "id": "do",
-      "day": "Do",
-      "name": "Compromised-sim",
-      "tags": [
-        "hyrox",
-        "simulatie"
-      ],
-      "rpe": 9,
-      "details": [
-        "5 rondes: 1 km racetempo + station",
-        "Sled push 50 m (Pro+)",
-        "BBJ 80 m",
-        "Farmers 200 m",
-        "Sandbag lunges 100 m",
-        "100 wall balls · noteer splits"
-      ]
-    },
-    {
-      "id": "vr",
-      "day": "Vr",
-      "name": "Easy run + mobiliteit",
-      "tags": [
-        "herstel",
-        "Z2"
-      ],
-      "rpe": 3,
-      "details": [
-        "Easy run 30 min Z2",
-        "Mobiliteit heup/knie 15 min",
-        "GGD-vaccinatie om 10:45, dus licht houden"
-      ]
-    },
-    {
-      "id": "za",
-      "day": "Za",
-      "name": "Lower knie/heupvriendelijk + BBJ",
-      "tags": [
-        "kracht",
-        "benen"
-      ],
-      "rpe": 7,
-      "details": [
-        "Leg press / box squat 4×6–8",
-        "RDL 3×8",
-        "Sandbag lunges 4×25 m",
-        "Farmers 4×60 m zwaar",
-        "BBJ 3×10, gecontroleerd landen",
-        "Lichter of skippen als de vaccinatie nog doorwerkt"
-      ]
-    },
-    {
-      "id": "zo",
-      "day": "Zo",
-      "name": "Rust",
-      "tags": [
-        "rust"
-      ],
-      "rpe": 1,
-      "details": [
-        "Volledige rust",
-        "Herstel voor volgende week"
-      ]
-    }
+  {
+    "id": "ma",
+    "day": "Ma",
+    "name": "Lower knie/heupvriendelijk + BBJ",
+    "tags": [
+      "kracht",
+      "benen"
+    ],
+    "rpe": 7,
+    "details": [
+      "Box squat of leg press 4×8",
+      "RDL 3×8",
+      "Sandbag lunges 4×25 m",
+      "Farmers 4×100 m (Pro of zwaarder)",
+      "BBJ 4×10, gecontroleerd landen",
+      "Pijnvrij bereik"
+    ]
+  },
+  {
+    "id": "di",
+    "day": "Di",
+    "name": "Zone 2 run",
+    "tags": [
+      "run",
+      "Z2"
+    ],
+    "rpe": 4,
+    "details": [
+      "45–50 min duurloop",
+      "HS 140–152, praattempo",
+      "Echt rustig houden"
+    ]
+  },
+  {
+    "id": "wo",
+    "day": "Wo",
+    "name": "Drempel + wall balls",
+    "tags": [
+      "run",
+      "Z4"
+    ],
+    "rpe": 8,
+    "details": [
+      "Warm-up 10–15 min",
+      "6×1 km @ 4:15–4:20/km (HS 164–173), 90 s rust",
+      "Wall balls 4×25 (Pro+)"
+    ]
+  },
+  {
+    "id": "do",
+    "day": "Do",
+    "name": "Upper + sled + roeien/ski",
+    "tags": [
+      "kracht",
+      "sled"
+    ],
+    "rpe": 7,
+    "details": [
+      "Sled push/pull 6×25 m (Pro+)",
+      "Roeien of SkiErg 4×500 m",
+      "Bovenlichaam push/pull"
+    ]
+  },
+  {
+    "id": "vr",
+    "day": "Vr",
+    "name": "Easy run + mobiliteit",
+    "tags": [
+      "herstel",
+      "Z1"
+    ],
+    "rpe": 3,
+    "details": [
+      "Easy run 30 min, HS onder 145",
+      "Mobiliteit heup/knie 15 min",
+      "Licht houden voor de sim van za"
+    ]
+  },
+  {
+    "id": "za",
+    "day": "Za",
+    "name": "Hyrox-sim 6 rondes",
+    "tags": [
+      "hyrox",
+      "simulatie"
+    ],
+    "rpe": 9,
+    "details": [
+      "6 rondes: 1 km racetempo + station",
+      "Sled push 50 m (Pro+)",
+      "BBJ 80 m (focus)",
+      "Farmers 200 m",
+      "Sandbag lunges 100 m (focus)",
+      "100 wall balls (focus)",
+      "Ronde 6: BBJ 40 m + 50 wall balls · noteer splits"
+    ]
+  },
+  {
+    "id": "zo",
+    "day": "Zo",
+    "name": "Rust",
+    "tags": [
+      "rust"
+    ],
+    "rpe": 1,
+    "details": [
+      "Volledige rust",
+      "Herstel voor volgende week"
+    ]
+  }
+];
+
+  const STATIONS = [
+    { id: "wb", name: "Wall balls" },
+    { id: "sled", name: "Sled push/pull" },
+    { id: "farmers", name: "Farmers carry" },
+    { id: "bbj", name: "Burpee broad jumps" },
+    { id: "lunges", name: "Sandbag lunges" },
+    { id: "row", name: "Roeien / ski" }
   ];
 
   function defaultState() {
