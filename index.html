@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hyrox Week 26 okt – 1 nov</title>
+<title>Hyrox Week 2–8 nov</title>
 <style>
   :root {
     --bg: #070b14;
@@ -602,8 +602,8 @@
     <div class="badge-row">
       <span class="badge">Hyrox training</span>
     </div>
-    <h1>Hyrox Week 26 okt – 1 nov</h1>
-    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · opbouw: drempel 4:15–4:20 &amp; sim met BBJ, lunges, wall balls</p>
+    <h1>Hyrox Week 2–8 nov</h1>
+    <p class="subtitle">Doel: sub 60 op 29 nov · solo Pro+ · racetempo 4:20 &amp; zwakke stations: BBJ, farmers, lunges, wall balls</p>
 
     <div class="stats-grid">
       <div class="stat-card">
@@ -681,25 +681,24 @@
 <script>
 (function () {
   const RACE = new Date(2026, 10, 29); // 29 nov 2026
-  const STORAGE_KEY = "hyrox-w26okt-1nov-2026";
+  const STORAGE_KEY = "hyrox-w2nov-8nov-2026";
 
   const SESSIONS = [
   {
     "id": "ma",
     "day": "Ma",
-    "name": "Lower knie/heupvriendelijk + BBJ",
+    "name": "Upper + sled",
     "tags": [
       "kracht",
-      "benen"
+      "sled"
     ],
     "rpe": 7,
     "details": [
-      "Box squat of leg press 4×8",
-      "RDL 3×8",
-      "Sandbag lunges 4×25 m",
-      "Farmers 4×100 m (Pro of zwaarder)",
-      "BBJ 4×10, gecontroleerd landen",
-      "Pijnvrij bereik"
+      "Sled push 6×25 m (Pro+)",
+      "Sled pull 6×25 m (Pro+)",
+      "SkiErg 4×500 m op racetempo",
+      "Roeien 4×500 m op racetempo",
+      "Bovenlichaam push/pull"
     ]
   },
   {
@@ -712,7 +711,7 @@
     ],
     "rpe": 4,
     "details": [
-      "45–50 min duurloop",
+      "50–55 min duurloop",
       "HS 140–152, praattempo",
       "Echt rustig houden"
     ]
@@ -720,7 +719,7 @@
   {
     "id": "wo",
     "day": "Wo",
-    "name": "Drempel + wall balls",
+    "name": "Compromised running",
     "tags": [
       "run",
       "Z4"
@@ -728,23 +727,27 @@
     "rpe": 8,
     "details": [
       "Warm-up 10–15 min",
-      "6×1 km @ 4:15–4:20/km (HS 164–173), 90 s rust",
-      "Wall balls 4×25 (Pro+)"
+      "5 × (1 km @ 4:20/km + 25 wall balls)",
+      "2 min rust tussen de rondes",
+      "Wall balls Pro+, zo onbroken mogelijk"
     ]
   },
   {
     "id": "do",
     "day": "Do",
-    "name": "Upper + sled + roeien/ski",
+    "name": "Lower + stations",
     "tags": [
       "kracht",
-      "sled"
+      "benen"
     ],
-    "rpe": 7,
+    "rpe": 8,
     "details": [
-      "Sled push/pull 6×25 m (Pro+)",
-      "Roeien of SkiErg 4×500 m",
-      "Bovenlichaam push/pull"
+      "Box squat of leg press 4×6",
+      "RDL 3×8",
+      "Sandbag lunges 4×25 m (focus)",
+      "Farmers 4×200 m (Pro of zwaarder)",
+      "BBJ 5×10, gecontroleerd landen (focus)",
+      "Pijnvrij bereik, knie/heup in de gaten houden"
     ]
   },
   {
@@ -757,28 +760,26 @@
     ],
     "rpe": 3,
     "details": [
-      "Easy run 30 min, HS onder 145",
+      "Easy run 30–35 min, HS onder 145",
       "Mobiliteit heup/knie 15 min",
-      "Licht houden voor de sim van za"
+      "Licht houden voor de halve sim van za"
     ]
   },
   {
     "id": "za",
     "day": "Za",
-    "name": "Hyrox-sim 6 rondes",
+    "name": "Halve sim stations 5–8",
     "tags": [
       "hyrox",
       "simulatie"
     ],
     "rpe": 9,
     "details": [
-      "6 rondes: 1 km racetempo + station",
-      "Sled push 50 m (Pro+)",
-      "BBJ 80 m (focus)",
-      "Farmers 200 m",
-      "Sandbag lunges 100 m (focus)",
-      "100 wall balls (focus)",
-      "Ronde 6: BBJ 40 m + 50 wall balls · noteer splits"
+      "4 rondes: 1 km @ 4:20/km + station",
+      "Ronde 1: roeien 1000 m",
+      "Ronde 2: farmers 200 m",
+      "Ronde 3: sandbag lunges 100 m (focus)",
+      "Ronde 4: wall balls 100 (focus) · noteer splits"
     ]
   },
   {
@@ -791,7 +792,7 @@
     "rpe": 1,
     "details": [
       "Volledige rust",
-      "Herstel voor volgende week"
+      "Herstel voor volgende week (race over 3 weken)"
     ]
   }
 ];
