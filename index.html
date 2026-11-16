@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hyrox Week 9–15 nov</title>
+<title>Hyrox Week 16–22 nov</title>
 <style>
   :root {
     --bg: #070b14;
@@ -602,8 +602,8 @@
     <div class="badge-row">
       <span class="badge">Hyrox training</span>
     </div>
-    <h1>Hyrox Week 9–15 nov</h1>
-    <p class="subtitle">Doel: sub 60 op 29 nov · di Hyrox-gym · solo Pro+ · racetempo 4:20 &amp; zwakke stations: BBJ, farmers, lunges, wall balls</p>
+    <h1>Hyrox Week 16–22 nov</h1>
+    <p class="subtitle">Doel: sub 60 op 29 nov · taper-week · solo Pro+ · racetempo 4:20 &amp; zwakke stations: BBJ, farmers, lunges, wall balls</p>
 
     <div class="stats-grid">
       <div class="stat-card">
@@ -681,96 +681,101 @@
 <script>
 (function () {
   const RACE = new Date(2026, 10, 29); // 29 nov 2026
-  const STORAGE_KEY = "hyrox-w9nov-15nov-2026";
+  const STORAGE_KEY = "hyrox-w16nov-22nov-2026";
 
   const SESSIONS = [
   {
     "id": "ma",
     "day": "Ma",
-    "name": "Upper + sled",
+    "name": "Upper + sled (taper-volume)",
     "tags": [
       "kracht",
       "sled"
     ],
-    "rpe": 8,
+    "rpe": 7,
     "details": [
-      "Sled push 6×25 m (Pro+)",
-      "Sled pull 6×25 m (Pro+)",
-      "Bovenlichaam push/pull 4×6–8",
-      "SkiErg 4×500 m op racetempo",
-      "Roeien 4×500 m op racetempo"
+      "Sled push 4×25 m (Pro+)",
+      "Sled pull 4×25 m (Pro+)",
+      "Bovenlichaam push/pull 3×6–8, 1–2 reps in reserve",
+      "SkiErg 3×500 m op racetempo",
+      "Roeien 3×500 m op racetempo"
     ]
   },
   {
     "id": "di",
     "day": "Di",
-    "name": "Hyrox-training bij Hyrox-gym",
+    "name": "Z2 run + techniek zwakke punten",
     "tags": [
-      "hyrox",
-      "gym"
+      "run",
+      "Z2"
     ],
-    "rpe": 8,
+    "rpe": 5,
     "details": [
-      "Groepstraining bij Hyrox-gym",
-      "RPE 8 · tijd aanpassen aan gymrooster",
-      "Volg het gymprogramma"
+      "35–40 min Z2, HS 140–152",
+      "BBJ-techniek, sandbag lunges, farmers carry: 3 rondes, ±10 min, licht en vlot",
+      "Kwaliteit boven kracht"
     ]
   },
   {
     "id": "wo",
     "day": "Wo",
-    "name": "Rust",
+    "name": "Compromised run-sim (licht)",
     "tags": [
-      "rust"
+      "run",
+      "wall balls"
     ],
-    "rpe": 1,
+    "rpe": 7,
     "details": [
-      "Rust; optioneel wandelen / 15–20 min lichte mobility",
-      "Herstel vanwege vermoeidheid; vrijdag weer oppakken"
+      "Inlopen 1,5 km + mobility",
+      "3× (1 km @ 4:25/km + 15 wall balls Pro-gewicht)",
+      "Uitlopen + 5 min mobility",
+      "Klaar vóór 10:30 · UWV-webinar 13:00"
     ]
   },
   {
     "id": "do",
     "day": "Do",
-    "name": "Rust",
+    "name": "Lower knie/heupvriendelijk (licht)",
     "tags": [
-      "rust"
+      "kracht",
+      "knie/heup"
     ],
-    "rpe": 1,
+    "rpe": 6,
     "details": [
-      "Rust; optioneel wandelen / 15–20 min lichte mobility",
-      "Herstel vanwege vermoeidheid; vrijdag weer oppakken"
+      "Goblet squat, RDL, step-ups, glute bridge 3×8–10",
+      "Heup/knie-mobility + core 10–15 min",
+      "Geen nieuwe zware prikkel · STOP als knie of heup opspeelt"
     ]
   },
   {
     "id": "vr",
     "day": "Vr",
-    "name": "Zone 2 run + mobility",
+    "name": "Easy run + mobility",
     "tags": [
       "run",
       "Z2"
     ],
     "rpe": 4,
     "details": [
-      "45–50 min Z2, HS 140–152",
-      "Daarna 15 min heup/knie-mobility",
-      "RPE ≤4 · praattempo"
+      "30 min easy, HS 140–152",
+      "15 min heup/knie-mobility",
+      "RPE ≤4 · frisheid voor zaterdag"
     ]
   },
   {
     "id": "za",
     "day": "Za",
-    "name": "Run met racetempo-blokken",
+    "name": "Racetempo-opener",
     "tags": [
       "run",
       "racetempo"
     ],
-    "rpe": 8,
+    "rpe": 7,
     "details": [
-      "8–10 km totaal",
+      "6–7 km totaal",
       "2 km inlopen",
-      "4× 1 km @ 4:20/km met 2 min dribbel",
-      "Uitlopen · noteer splits"
+      "3× 1 km @ 4:20/km met 2 min dribbel",
+      "Uitlopen · laatste echte prikkel voor de race"
     ]
   },
   {
@@ -783,7 +788,7 @@
     "rpe": 1,
     "details": [
       "Volledige rust",
-      "Herstel · volgende week (16–22 nov) begint de taper"
+      "Race-logistiek: tickets, spullen, eten · race 29 nov"
     ]
   }
 ];
