@@ -594,6 +594,24 @@
   @media (min-width: 480px) {
     .wrap { padding: 28px 20px 40px; }
   }
+
+  /* ── Voeding ── */
+  .food-macros{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 4px}
+  .food-macros div{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px;text-align:center}
+  .food-macros b{display:block;font-size:1rem}
+  .food-macros span{font-size:.7rem;color:var(--text-muted)}
+  details.food{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+  details.food summary{cursor:pointer;font-weight:700;list-style:none}
+  details.food summary::-webkit-details-marker{display:none}
+  details.food summary small{color:var(--text-muted);font-weight:500;margin-left:6px}
+  details.food ul{margin:10px 0 0 18px;color:var(--text-muted);font-size:.88rem}
+  details.food li{margin-bottom:4px}
+  details.food li b{color:var(--text)}
+  .shop-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .shop-list label{display:flex;gap:10px;align-items:center;font-size:.88rem;color:var(--text-muted)}
+  .shop-list input{accent-color:var(--blue);width:18px;height:18px}
+  .shop-list input:checked + span{text-decoration:line-through;opacity:.55}
+  .food-note{font-size:.75rem;color:var(--text-dim);margin-top:8px}
 </style>
 </head>
 <body>
@@ -674,6 +692,83 @@
       <input type="range" id="hip" min="0" max="10" value="0">
     </div>
   </div>
+
+  <div class="section-title">Voeding · raceweek 23–29 nov</div>
+  <div class="tracker-card">
+    <h3><span class="icon">🍽️</span> Dagbehoefte (Ter Haaf, 83,5 kg)</h3>
+    <div class="food-macros">
+      <div><b>~3300</b><span>kcal ma–do</span></div>
+      <div><b>150 g</b><span>eiwit / dag</span></div>
+      <div><b>400–650 g</b><span>koolhydraten</span></div>
+    </div>
+    <p class="food-note">Rustverbruik ~2085 kcal × PAL 1,6 (taper). Normale trainingsweek: 3750–3950 kcal.</p>
+  </div>
+
+  <details class="food">
+    <summary>🥣 Normale dag <small>ma–do · ~3100–3300 kcal</small></summary>
+    <ul>
+      <li><b>Ontbijt:</b> 100 g havermout, 300 ml melk, banaan, el pindakaas</li>
+      <li><b>Lunch:</b> 4 bruine boterhammen met ei, kwark of pindakaas, komkommer/tomaat</li>
+      <li><b>Tussendoor:</b> 2 krentenbollen + handje pinda's</li>
+      <li><b>Middag:</b> 250 g magere kwark, muesli, appel</li>
+      <li><b>Diner:</b> 150 g rijst/pasta (droog), 150 g kip, 250 g groente, el olie; linzen erdoor</li>
+      <li><b>Avond:</b> 250 g magere kwark met honing</li>
+    </ul>
+  </details>
+
+  <details class="food">
+    <summary>🍝 Laaddag <small>vr–za · 500–650 g koolhydraten</small></summary>
+    <ul>
+      <li><b>Ontbijt:</b> havermout, banaan, honing + 2 witte boterhammen met jam</li>
+      <li><b>Lunch:</b> 6 witte boterhammen met ei/kwark en jam</li>
+      <li><b>Tussendoor:</b> 3 krentenbollen + groot glas sap of ranja</li>
+      <li><b>Diner:</b> 200 g witte pasta (droog), mager gehakt, tomatensaus, weinig groente</li>
+      <li><b>Avond:</b> kwark met honing + rijstwafels</li>
+      <li>Weinig vezels en vet, géén linzen op deze dagen</li>
+    </ul>
+  </details>
+
+  <details class="food">
+    <summary>🏁 Racedag <small>zo 29 nov</small></summary>
+    <ul>
+      <li><b>3 uur vóór start:</b> 80 g havermout, melk, banaan, honing + 2 witte boterhammen met jam</li>
+      <li><b>1 uur vóór start:</b> evt. ~250 mg cafeïne (2–3 koppen), alleen als je dat gewend bent</li>
+      <li><b>Na de finish:</b> 500 ml chocomelk + krentenbol, daarna een goede maaltijd</li>
+      <li>Niets nieuws op racedag: ontbijt testen vóór de opener van za 21 nov</li>
+    </ul>
+  </details>
+
+  <details class="food" open>
+    <summary>🛒 Boodschappenlijst <small>Lidl · ~€59,98</small></summary>
+    <div class="shop-list" id="shopList">
+      <label><input type="checkbox" data-shop="0"><span>1 kg havermout</span></label>
+      <label><input type="checkbox" data-shop="1"><span>3 L halfvolle melk</span></label>
+      <label><input type="checkbox" data-shop="2"><span>1 pak muesli</span></label>
+      <label><input type="checkbox" data-shop="3"><span>18 bananen</span></label>
+      <label><input type="checkbox" data-shop="4"><span>6 appels</span></label>
+      <label><input type="checkbox" data-shop="5"><span>2 bruine broden</span></label>
+      <label><input type="checkbox" data-shop="6"><span>2 witte broden</span></label>
+      <label><input type="checkbox" data-shop="7"><span>16 krentenbollen</span></label>
+      <label><input type="checkbox" data-shop="8"><span>3 kg magere kwark</span></label>
+      <label><input type="checkbox" data-shop="9"><span>18 eieren</span></label>
+      <label><input type="checkbox" data-shop="10"><span>1 kg kipfilet</span></label>
+      <label><input type="checkbox" data-shop="11"><span>500 g mager rundergehakt</span></label>
+      <label><input type="checkbox" data-shop="12"><span>500 g groene linzen</span></label>
+      <label><input type="checkbox" data-shop="13"><span>1 kg rijst</span></label>
+      <label><input type="checkbox" data-shop="14"><span>1 kg witte pasta</span></label>
+      <label><input type="checkbox" data-shop="15"><span>750 g diepvriesgroente</span></label>
+      <label><input type="checkbox" data-shop="16"><span>komkommer + tomaten</span></label>
+      <label><input type="checkbox" data-shop="17"><span>2× tomatenblokjes / pastasaus</span></label>
+      <label><input type="checkbox" data-shop="18"><span>pindakaas</span></label>
+      <label><input type="checkbox" data-shop="19"><span>honing</span></label>
+      <label><input type="checkbox" data-shop="20"><span>jam</span></label>
+      <label><input type="checkbox" data-shop="21"><span>200 g ongezouten pinda's</span></label>
+      <label><input type="checkbox" data-shop="22"><span>rijstwafels</span></label>
+      <label><input type="checkbox" data-shop="23"><span>1 L sap of ranja</span></label>
+      <label><input type="checkbox" data-shop="24"><span>1 L chocomelk (na de race)</span></label>
+    </div>
+    <p class="food-note">Prijzen van 20 nov, bananen geschat. Vinkjes blijven op dit apparaat bewaard. Plan: Foodie.</p>
+  </details>
 
   <footer>Hyrox dashboard · data blijft lokaal op dit apparaat</footer>
 </div>
@@ -974,6 +1069,17 @@
       save(state);
     });
   }
+
+  // Boodschappenlijst afvinken
+  (function(){
+    const KEY="hyrox-shop-w48";
+    let shop={};
+    try{shop=JSON.parse(localStorage.getItem(KEY)||"{}")}catch{}
+    document.querySelectorAll("[data-shop]").forEach(cb=>{
+      cb.checked=!!shop[cb.dataset.shop];
+      cb.addEventListener("change",()=>{shop[cb.dataset.shop]=cb.checked;localStorage.setItem(KEY,JSON.stringify(shop));});
+    });
+  })();
 
   updateCountdown();
   renderSessions();
