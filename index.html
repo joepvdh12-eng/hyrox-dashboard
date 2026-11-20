@@ -359,15 +359,15 @@ const CLIENT = {
       "title": "Dagbehoefte (Ter Haaf, 83,5 kg)",
       "stats": [
         {
-          "v": "~3249",
+          "v": "~3255",
           "l": "kcal ma–do"
         },
         {
-          "v": "~180 g",
+          "v": "~179 g",
           "l": "eiwit ma–do"
         },
         {
-          "v": "453–631 g",
+          "v": "456–631 g",
           "l": "koolhydraten"
         }
       ],
@@ -395,15 +395,15 @@ const CLIENT = {
         "when": "ma–do",
         "sub": "doel 3100–3300 kcal",
         "targets": {
-          "kcal": 3249,
-          "p": 180,
-          "c": 453,
+          "kcal": 3255,
+          "p": 179,
+          "c": 456,
           "f": 67
         },
         "notes": [
           "Linzen alleen ma–do door het diner, niet op laad- of racedag.",
           "Eiwit komt op ~179 g (2,1 g/kg), boven de 150 g: prima, hoeft niet terug.",
-          "Groente: 750 g diepvries + losse wortels en witte kool, zo heb je ~250 g per diner."
+          "Groente per diner: 190 g diepvriesgroente + 60 g wortel (wortel: richtwaarde 37 kcal / 0,4 g E / 8 g KH per 100 g, niet uit het NEVO-bestand)."
         ],
         "meals": [
           {
@@ -550,16 +550,17 @@ const CLIENT = {
             "estimate": false,
             "alternatives": [
               {
-                "name": "Kwark met havermout en appel",
+                "name": "Omelet van 3 eieren + 2 bruine boterhammen + appel",
                 "items": [
-                  "250 g magere kwark",
-                  "35 g havermout",
-                  "150 g appel"
+                  "165 g gekookt ei (3 eieren, omelet zonder extra olie)",
+                  "70 g bruinbrood (2 sneetjes)",
+                  "150 g appel (1 appel)"
                 ],
-                "kcal": 340,
-                "p": 25.9,
-                "c": 48.2,
-                "f": 2.5
+                "kcal": 462,
+                "p": 27.7,
+                "c": 48.3,
+                "f": 16.1,
+                "note": "Ander profiel dan de kwarkmiddag (meer vet, minder eiwit); ringen volgen deze keuze."
               },
               {
                 "name": "Kwark met krentenbol en honing",
@@ -582,14 +583,15 @@ const CLIENT = {
             "items": [
               "150 g witte rijst (droog) (droog afgewogen)",
               "150 g kipfilet (rauw)",
-              "250 g groente",
+              "190 g diepvriesgroente",
+              "60 g wortel",
               "10 g olijfolie (1 eetlepel, uit de voorraad)",
               "40 g groene linzen (droog) (droog afgewogen, alleen ma–do)"
             ],
-            "kcal": 971,
-            "p": 57.6,
-            "c": 143.0,
-            "f": 15.6,
+            "kcal": 977,
+            "p": 56.9,
+            "c": 145.7,
+            "f": 15.5,
             "estimate": false,
             "note": "Linzen alleen op maandag t/m donderdag, niet op laaddagen.",
             "alternatives": [
@@ -598,13 +600,14 @@ const CLIENT = {
                 "items": [
                   "150 g witte pasta (droog) (droog afgewogen)",
                   "140 g kipfilet (rauw)",
-                  "250 g groente",
+                  "190 g diepvriesgroente",
+                  "60 g wortel",
                   "10 g olijfolie",
                   "35 g groene linzen (droog)"
                 ],
-                "kcal": 951,
-                "p": 62.2,
-                "c": 131.8,
+                "kcal": 957,
+                "p": 61.5,
+                "c": 134.5,
                 "f": 16.0
               },
               {
@@ -613,13 +616,14 @@ const CLIENT = {
                   "170 g witte rijst (droog)",
                   "150 g kipfilet (rauw)",
                   "55 g gekookt ei (1 ei)",
-                  "250 g groente",
+                  "190 g diepvriesgroente",
+                  "60 g wortel",
                   "6 g olijfolie"
                 ],
-                "kcal": 954,
-                "p": 57.4,
-                "c": 141.4,
-                "f": 16.0,
+                "kcal": 960,
+                "p": 56.7,
+                "c": 144.1,
+                "f": 15.9,
                 "note": "Handig als de linzen op zijn"
               }
             ]
@@ -825,7 +829,7 @@ const CLIENT = {
               "200 g witte pasta (droog) (droog afgewogen, witte pasta)",
               "125 g rundergehakt 15%",
               "400 g tomatenblokjes (1 blik/pak)",
-              "80 g groente (weinig groente, laaddag)"
+              "80 g diepvriesgroente (weinig groente, laaddag)"
             ],
             "kcal": 1096,
             "p": 54.0,
@@ -1058,7 +1062,7 @@ const CLIENT = {
               "150 g witte pasta (droog) (droog afgewogen)",
               "150 g kipfilet (rauw)",
               "200 g tomatenblokjes",
-              "80 g groente (weinig groente als je buik nog vol zit)",
+              "80 g diepvriesgroente (weinig groente als je buik nog vol zit)",
               "10 g olijfolie"
             ],
             "kcal": 857,
@@ -1074,7 +1078,7 @@ const CLIENT = {
                   "150 g witte rijst (droog)",
                   "180 g kipfilet (rauw)",
                   "200 g tomatenblokjes",
-                  "80 g groente",
+                  "80 g diepvriesgroente",
                   "10 g olijfolie"
                 ],
                 "kcal": 884,
@@ -1108,9 +1112,9 @@ const CLIENT = {
         "when": "sjabloon",
         "sub": "doel 2800–3100 kcal",
         "targets": {
-          "kcal": 2940,
-          "p": 172,
-          "c": 390,
+          "kcal": 2946,
+          "p": 171,
+          "c": 393,
           "f": 65
         },
         "notes": [
@@ -1261,16 +1265,17 @@ const CLIENT = {
             "estimate": false,
             "alternatives": [
               {
-                "name": "Kwark met havermout en appel",
+                "name": "Omelet van 3 eieren + 2 bruine boterhammen + appel",
                 "items": [
-                  "250 g magere kwark",
-                  "35 g havermout",
-                  "150 g appel"
+                  "165 g gekookt ei (3 eieren, omelet zonder extra olie)",
+                  "70 g bruinbrood (2 sneetjes)",
+                  "150 g appel (1 appel)"
                 ],
-                "kcal": 340,
-                "p": 25.9,
-                "c": 48.2,
-                "f": 2.5
+                "kcal": 462,
+                "p": 27.7,
+                "c": 48.3,
+                "f": 16.1,
+                "note": "Ander profiel dan de kwarkmiddag (meer vet, minder eiwit); ringen volgen deze keuze."
               },
               {
                 "name": "Kwark met krentenbol en honing",
@@ -1293,14 +1298,15 @@ const CLIENT = {
             "items": [
               "120 g witte rijst (droog) (droog afgewogen, iets minder dan op een trainingsdag)",
               "150 g kipfilet (rauw)",
-              "250 g groente",
+              "190 g diepvriesgroente",
+              "60 g wortel",
               "10 g olijfolie",
               "40 g groene linzen (droog)"
             ],
-            "kcal": 866,
-            "p": 55.5,
-            "c": 119.6,
-            "f": 15.3,
+            "kcal": 872,
+            "p": 54.8,
+            "c": 122.2,
+            "f": 15.2,
             "estimate": false,
             "alternatives": [
               {
@@ -1308,14 +1314,15 @@ const CLIENT = {
                 "items": [
                   "120 g witte pasta (droog)",
                   "150 g kipfilet (rauw)",
-                  "250 g groente",
+                  "190 g diepvriesgroente",
+                  "60 g wortel",
                   "10 g olijfolie",
                   "30 g groene linzen (droog)"
                 ],
-                "kcal": 840,
-                "p": 59.8,
-                "c": 108.1,
-                "f": 15.7
+                "kcal": 846,
+                "p": 59.1,
+                "c": 110.8,
+                "f": 15.6
               },
               {
                 "name": "Rijst met kip en ei, zonder linzen",
@@ -1323,13 +1330,14 @@ const CLIENT = {
                   "130 g witte rijst (droog)",
                   "150 g kipfilet (rauw)",
                   "55 g gekookt ei",
-                  "250 g groente",
+                  "190 g diepvriesgroente",
+                  "60 g wortel",
                   "6 g olijfolie"
                 ],
-                "kcal": 813,
-                "p": 54.6,
-                "c": 110.2,
-                "f": 15.6
+                "kcal": 819,
+                "p": 53.9,
+                "c": 112.9,
+                "f": 15.5
               }
             ]
           },
@@ -1379,9 +1387,8 @@ const CLIENT = {
       "store": "Lidl",
       "label": "raceweek 23–29 nov",
       "budget": 60,
-      "statedTotal": 57.69,
-      "totalNote": "+ wortels/kool · prijzen wortels/kool nog niet nagekeken",
-      "note": "Muesli geschrapt (havermout in de plaats), daarvan losse wortels en een witte kool. Bananen geschat (~€1,15/kg). Olijfolie uit de voorraad. Vinkjes blijven op dit apparaat bewaard. Plan: Foodie.",
+      "statedTotal": 58.98,
+      "note": "Muesli geschrapt (havermout in de plaats), daarvan 1 kg wortels. Bananen geschat (~€1,15/kg). Olijfolie uit de voorraad. Vinkjes blijven op dit apparaat bewaard. Plan: Foodie.",
       "items": [
         {
           "id": "0",
@@ -1473,7 +1480,7 @@ const CLIENT = {
           "qty": "750 g",
           "name": "diepvriesgroente",
           "price": 1.79,
-          "note": "Aangevuld met losse wortels en een witte kool (Foodie)"
+          "note": "190 g per diner ma–do, aangevuld met 60 g wortel"
         },
         {
           "id": "15",
@@ -1531,17 +1538,10 @@ const CLIENT = {
         },
         {
           "id": "24",
-          "qty": "~500 g",
-          "name": "losse wortels",
-          "price": null,
-          "note": "prijs nog niet nagekeken"
-        },
-        {
-          "id": "25",
-          "qty": "1",
-          "name": "witte kool",
-          "price": null,
-          "note": "prijs nog niet nagekeken"
+          "qty": "1 kg",
+          "name": "wortels",
+          "price": 1.29,
+          "note": "60 g per diner ma–do, naast de diepvriesgroente"
         }
       ]
     }
