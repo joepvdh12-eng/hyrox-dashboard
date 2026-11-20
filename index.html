@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Dashboard</title>
+<title>JPTR</title>
 <meta name="theme-color" content="#070b14">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Dashboard">
+<meta name="apple-mobile-web-app-title" content="JPTR">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -41,6 +41,8 @@ button{cursor:pointer;border:0;background:none}
 /* top bar */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 2px 16px}
 .hello small{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{height:48px;width:auto;flex:none;filter:drop-shadow(0 0 10px rgba(255,255,255,.06))}
 .hello h1{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.15}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(var(--accent-rgb),.14);border:1px solid rgba(var(--accent-rgb),.35);font-size:.78rem;font-weight:700;white-space:nowrap}
 .pill b{font-size:1rem;font-variant-numeric:tabular-nums}
@@ -158,6 +160,9 @@ textarea:focus,input:focus{border-color:rgba(var(--accent-rgb),.6)}
 .meal-t b{font-size:.95rem}
 .meal-t .kc{font-size:.8rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .meal-items{font-size:.84rem;color:#cdd5e1;margin-top:2px}
+.meal-note{font-size:.74rem;color:var(--muted);margin-top:3px;font-style:italic}
+.shop .it small{display:block;font-size:.7rem;color:var(--muted)}
+.src{font-size:.72rem;color:var(--muted);margin-top:10px;letter-spacing:.02em}
 .meal-m{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:7px;font-size:.72rem;font-weight:700;color:var(--muted)}
 .meal-m i{font-style:normal}
 .meal-m .p{color:var(--m-p)} .meal-m .c{color:var(--m-c)} .meal-m .f{color:var(--m-f)}
@@ -244,7 +249,7 @@ footer{text-align:center;font-size:.72rem;color:var(--dim);margin-top:22px}
 <body>
 <div class="app">
   <header class="top">
-    <div class="hello"><small id="hdrWeek"></small><h1 id="hdrTitle">Dashboard</h1></div>
+    <div class="brand"><img class="logo" src="jptr-logo.svg" alt="JPTR-logo" width="48" height="49"><div class="hello"><small id="hdrWeek"></small><h1 id="hdrTitle">JPTR</h1></div></div>
     <div class="pill" id="hdrCount"></div>
   </header>
   <main>
@@ -274,13 +279,13 @@ footer{text-align:center;font-size:.72rem;color:var(--dim);margin-top:22px}
    Wekelijkse update: vervang CLIENT.week (id, label, phase, startDate, sessions).
    Sessie-type: kracht | duur | interval | hyrox | rust | laad.
    Voedings-dagtype: normaal | laad | race | rust.
-   Maaltijd: {id, name, items[], kcal, p, c, f, estimate, alternatives:[{name, items, kcal, p, c, f}]}
-   Boodschap: {id, qty, name, price|null}  (price in euro; leeg = gebruik statedTotal)
+   Maaltijd: {id, name, items[], kcal, p, c, f, estimate, note?, alternatives:[{name, items, kcal, p, c, f, note?}]}
+   Boodschap: {id, qty, name, price|null, note?}  (alle prijzen ingevuld = echte som; anders statedTotal + totalNote)
    ========================================================================== */
 const CLIENT = {
   id: "joep",
   name: "Joep",
-  appTitle: "Dashboard",
+  appTitle: "JPTR",
   theme: { accent: "#3b82f6" },
   goal: "Sub 60 op 29 nov · solo Pro+ · racetempo 4:20",
   weakStationsText: "BBJ, farmers, lunges, wall balls",
@@ -339,88 +344,1205 @@ const CLIENT = {
 
   /* ---- VOEDING (plan: Foodie) ---- */
   nutrition: {
-    by: "Foodie",
-    profile: { weightKg: 83.5, heightM: 1.85, age: 27, sex: "man", pal: 1.6, proteinPerKg: 1.8, fatPct: 25 },
-    summary: {
-      title: "Dagbehoefte (Ter Haaf, 83,5 kg)",
-      stats: [ { v: "~3300", l: "kcal ma–do" }, { v: "150 g", l: "eiwit / dag" }, { v: "400–650 g", l: "koolhydraten" } ],
-      note: "Rustverbruik ~2085 kcal × PAL 1,6 (taper). Normale trainingsweek: 3750–3950 kcal."
+    "by": "Foodie",
+    "source": "Voedingswaarden: NEVO (RIVM) · plan: Foodie",
+    "profile": {
+      "weightKg": 83.5,
+      "heightM": 1.85,
+      "age": 27,
+      "sex": "man",
+      "pal": 1.6,
+      "proteinPerKg": 1.8,
+      "fatPct": 25
     },
-    // Welk dagtype op welke datum. Buiten deze week: sessie.dayType of defaultDayType.
-    schedule: { label: "Raceweek 23–29 nov", startDate: "2026-11-23", days: ["normaal", "normaal", "normaal", "normaal", "laad", "laad", "race"] },
-    defaultDayType: "normaal",
-    dayTypes: {
-      normaal: {
-        label: "Normaal", title: "Normale dag", emoji: "🥣", when: "ma–do", sub: "~3100–3300 kcal",
-        targets: {},
-        notes: [],
-        meals: [
-          { id: "n-ontbijt", name: "Ontbijt", items: ["100 g havermout", "300 ml melk", "banaan", "el pindakaas"], kcal: 700, p: 29, c: 103, f: 19, estimate: true, alternatives: [] },
-          { id: "n-lunch", name: "Lunch", items: ["4 bruine boterhammen met ei, kwark of pindakaas", "komkommer/tomaat"], kcal: 500, p: 27, c: 60, f: 14, estimate: true, alternatives: [] },
-          { id: "n-tussen", name: "Tussendoor", items: ["2 krentenbollen", "handje pinda's"], kcal: 475, p: 16, c: 63, f: 18, estimate: true, alternatives: [] },
-          { id: "n-middag", name: "Middag", items: ["250 g magere kwark", "muesli", "appel"], kcal: 370, p: 29, c: 56, f: 4, estimate: true, alternatives: [] },
-          { id: "n-diner", name: "Diner", items: ["150 g rijst/pasta (droog)", "150 g kip", "250 g groente", "el olie", "linzen erdoor"], kcal: 1030, p: 63, c: 152, f: 15, estimate: true, alternatives: [] },
-          { id: "n-avond", name: "Avond", items: ["250 g magere kwark met honing"], kcal: 200, p: 25, c: 26, f: 1, estimate: true, alternatives: [] }
+    "summary": {
+      "title": "Dagbehoefte (Ter Haaf, 83,5 kg)",
+      "stats": [
+        {
+          "v": "~3249",
+          "l": "kcal ma–do"
+        },
+        {
+          "v": "~180 g",
+          "l": "eiwit ma–do"
+        },
+        {
+          "v": "453–631 g",
+          "l": "koolhydraten"
+        }
+      ],
+      "note": "Rustverbruik ~2085 kcal × PAL 1,6 (taper) ≈ 3336 kcal. Normale trainingsweek (PAL 1,85): ~3857 kcal. Ringdoelen = Foodie's dagplan."
+    },
+    "schedule": {
+      "label": "Raceweek 23–29 nov",
+      "startDate": "2026-11-23",
+      "days": [
+        "normaal",
+        "normaal",
+        "normaal",
+        "normaal",
+        "laad",
+        "laad",
+        "race"
+      ]
+    },
+    "defaultDayType": "normaal",
+    "dayTypes": {
+      "normaal": {
+        "label": "Normaal",
+        "title": "Normale dag",
+        "emoji": "🥣",
+        "when": "ma–do",
+        "sub": "doel 3100–3300 kcal",
+        "targets": {
+          "kcal": 3249,
+          "p": 180,
+          "c": 453,
+          "f": 67
+        },
+        "notes": [
+          "Linzen alleen ma–do door het diner, niet op laad- of racedag.",
+          "Eiwit komt op ~179 g (2,1 g/kg), boven de 150 g: prima, hoeft niet terug.",
+          "Groente: 750 g diepvries + losse wortels en witte kool, zo heb je ~250 g per diner."
+        ],
+        "meals": [
+          {
+            "id": "n-ontbijt",
+            "name": "Ontbijt",
+            "items": [
+              "100 g havermout",
+              "300 ml halfvolle melk",
+              "120 g banaan (1 banaan)",
+              "15 g pindakaas (1 eetlepel)"
+            ],
+            "kcal": 710,
+            "p": 27.7,
+            "c": 98.8,
+            "f": 19.2,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Havermout met melk, banaan en pindakaas",
+                "items": [
+                  "90 g havermout",
+                  "300 ml halfvolle melk",
+                  "120 g banaan",
+                  "20 g pindakaas"
+                ],
+                "kcal": 706,
+                "p": 27.5,
+                "c": 93.4,
+                "f": 21.4
+              },
+              {
+                "name": "Bruin brood met pindakaas, honing, banaan en melk",
+                "items": [
+                  "105 g bruinbrood (3 sneetjes)",
+                  "25 g pindakaas",
+                  "15 g honing",
+                  "120 g banaan",
+                  "250 ml halfvolle melk"
+                ],
+                "kcal": 686,
+                "p": 25.9,
+                "c": 95.7,
+                "f": 19.9
+              }
+            ]
+          },
+          {
+            "id": "n-lunch",
+            "name": "Lunch",
+            "items": [
+              "140 g bruinbrood (4 sneetjes à 35 g)",
+              "110 g gekookt ei (2 eieren)",
+              "80 g komkommer",
+              "80 g tomaat"
+            ],
+            "kcal": 502,
+            "p": 28.6,
+            "c": 64.4,
+            "f": 13.0,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Vier sneetjes met pindakaas, kwark, komkommer en tomaat",
+                "items": [
+                  "140 g bruinbrood",
+                  "15 g pindakaas",
+                  "100 g magere kwark",
+                  "80 g komkommer",
+                  "80 g tomaat"
+                ],
+                "kcal": 510,
+                "p": 26.8,
+                "c": 69.7,
+                "f": 11.8
+              },
+              {
+                "name": "Vier sneetjes met 1 ei, kwark, pindakaas en groente",
+                "items": [
+                  "140 g bruinbrood",
+                  "55 g gekookt ei (1 ei)",
+                  "80 g magere kwark",
+                  "8 g pindakaas",
+                  "80 g komkommer",
+                  "80 g tomaat"
+                ],
+                "kcal": 525,
+                "p": 30.3,
+                "c": 68.2,
+                "f": 12.7
+              }
+            ]
+          },
+          {
+            "id": "n-tussen",
+            "name": "Tussendoor",
+            "items": [
+              "140 g krentenbol (2 bollen à 70 g)",
+              "25 g ongezouten pinda's (1 handje)"
+            ],
+            "kcal": 532,
+            "p": 18.1,
+            "c": 74.5,
+            "f": 16.4,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Twee krentenbollen met pindakaas",
+                "items": [
+                  "140 g krentenbol",
+                  "20 g pindakaas"
+                ],
+                "kcal": 506,
+                "p": 16.3,
+                "c": 73.5,
+                "f": 14.8
+              },
+              {
+                "name": "Krentenbol, havermout, pindakaas en melk",
+                "items": [
+                  "70 g krentenbol",
+                  "45 g havermout",
+                  "15 g pindakaas",
+                  "150 ml halfvolle melk"
+                ],
+                "kcal": 518,
+                "p": 20.1,
+                "c": 71.0,
+                "f": 15.1
+              }
+            ]
+          },
+          {
+            "id": "n-middag",
+            "name": "Middag",
+            "items": [
+              "250 g magere kwark",
+              "40 g havermout",
+              "150 g appel (1 middelgrote appel)"
+            ],
+            "kcal": 358,
+            "p": 26.6,
+            "c": 51.2,
+            "f": 2.8,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Kwark met havermout en appel",
+                "items": [
+                  "250 g magere kwark",
+                  "35 g havermout",
+                  "150 g appel"
+                ],
+                "kcal": 340,
+                "p": 25.9,
+                "c": 48.2,
+                "f": 2.5
+              },
+              {
+                "name": "Kwark met krentenbol en honing",
+                "items": [
+                  "250 g magere kwark",
+                  "70 g krentenbol",
+                  "10 g honing"
+                ],
+                "kcal": 347,
+                "p": 26.9,
+                "c": 53.3,
+                "f": 1.8,
+                "note": "Iets meer koolhydraten, iets minder vezels dan de basis; vet blijft laag"
+              }
+            ]
+          },
+          {
+            "id": "n-diner",
+            "name": "Diner",
+            "items": [
+              "150 g witte rijst (droog) (droog afgewogen)",
+              "150 g kipfilet (rauw)",
+              "250 g groente",
+              "10 g olijfolie (1 eetlepel, uit de voorraad)",
+              "40 g groene linzen (droog) (droog afgewogen, alleen ma–do)"
+            ],
+            "kcal": 971,
+            "p": 57.6,
+            "c": 143.0,
+            "f": 15.6,
+            "estimate": false,
+            "note": "Linzen alleen op maandag t/m donderdag, niet op laaddagen.",
+            "alternatives": [
+              {
+                "name": "Pasta in plaats van rijst, met iets minder linzen",
+                "items": [
+                  "150 g witte pasta (droog) (droog afgewogen)",
+                  "140 g kipfilet (rauw)",
+                  "250 g groente",
+                  "10 g olijfolie",
+                  "35 g groene linzen (droog)"
+                ],
+                "kcal": 951,
+                "p": 62.2,
+                "c": 131.8,
+                "f": 16.0
+              },
+              {
+                "name": "Rijst met kip en ei, zonder linzen",
+                "items": [
+                  "170 g witte rijst (droog)",
+                  "150 g kipfilet (rauw)",
+                  "55 g gekookt ei (1 ei)",
+                  "250 g groente",
+                  "6 g olijfolie"
+                ],
+                "kcal": 954,
+                "p": 57.4,
+                "c": 141.4,
+                "f": 16.0,
+                "note": "Handig als de linzen op zijn"
+              }
+            ]
+          },
+          {
+            "id": "n-avond",
+            "name": "Avond",
+            "items": [
+              "250 g magere kwark",
+              "15 g honing"
+            ],
+            "kcal": 176,
+            "p": 21.0,
+            "c": 21.5,
+            "f": 0.0,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Kwark met jam",
+                "items": [
+                  "250 g magere kwark",
+                  "20 g jam"
+                ],
+                "kcal": 177,
+                "p": 21.1,
+                "c": 21.7,
+                "f": 0.0
+              },
+              {
+                "name": "Kwark met honing en een rijstwafel",
+                "items": [
+                  "250 g magere kwark",
+                  "8 g honing",
+                  "9 g rijstwafel (1 stuk)"
+                ],
+                "kcal": 188,
+                "p": 21.7,
+                "c": 23.2,
+                "f": 0.3
+              }
+            ]
+          }
         ]
       },
-      laad: {
-        label: "Laaddag", title: "Laaddag", emoji: "🍝", when: "vr–za", sub: "500–650 g koolhydraten",
-        targets: { c: 575, cLabel: "500–650" },
-        notes: ["Weinig vezels en vet, géén linzen op deze dagen"],
-        meals: [
-          { id: "l-ontbijt", name: "Ontbijt", items: ["havermout", "banaan", "honing", "2 witte boterhammen met jam"], kcal: 800, p: 25, c: 148, f: 12, estimate: true, alternatives: [] },
-          { id: "l-lunch", name: "Lunch", items: ["6 witte boterhammen met ei/kwark en jam"], kcal: 670, p: 30, c: 123, f: 6, estimate: true, alternatives: [] },
-          { id: "l-tussen", name: "Tussendoor", items: ["3 krentenbollen", "groot glas sap of ranja"], kcal: 675, p: 17, c: 132, f: 9, estimate: true, alternatives: [] },
-          { id: "l-diner", name: "Diner", items: ["200 g witte pasta (droog)", "mager gehakt", "tomatensaus", "weinig groente"], kcal: 1320, p: 79, c: 160, f: 41, estimate: true, alternatives: [] },
-          { id: "l-avond", name: "Avond", items: ["kwark met honing", "rijstwafels"], kcal: 305, p: 27, c: 49, f: 2, estimate: true, alternatives: [] }
+      "laad": {
+        "label": "Laaddag",
+        "title": "Laaddag",
+        "emoji": "🍝",
+        "when": "vr–za",
+        "sub": "doel 500–650 g KH",
+        "targets": {
+          "kcal": 3785,
+          "p": 167,
+          "c": 631,
+          "f": 55,
+          "cLabel": "631"
+        },
+        "notes": [
+          "Weinig vezels en vet, géén linzen: wit brood, witte pasta, weinig groente.",
+          "Zware maag? 80 g havermout bij het ontbijt en 2 krentenbollen i.p.v. 3 (richting 500–550 g KH)."
+        ],
+        "meals": [
+          {
+            "id": "l-ontbijt",
+            "name": "Ontbijt",
+            "items": [
+              "100 g havermout",
+              "300 ml halfvolle melk",
+              "120 g banaan",
+              "15 g honing",
+              "70 g witbrood (2 sneetjes)",
+              "30 g jam (15 g per snee)"
+            ],
+            "kcal": 908,
+            "p": 30.8,
+            "c": 161.2,
+            "f": 11.9,
+            "estimate": false,
+            "note": "Weinig vezelrijk beleg; wit brood en jam erbij.",
+            "alternatives": [
+              {
+                "name": "Iets lichtere havermout, extra wit brood met jam",
+                "items": [
+                  "80 g havermout",
+                  "300 ml halfvolle melk",
+                  "120 g banaan",
+                  "15 g honing",
+                  "105 g witbrood (3 sneetjes)",
+                  "40 g jam"
+                ],
+                "kcal": 946,
+                "p": 31.4,
+                "c": 172.3,
+                "f": 11.2
+              },
+              {
+                "name": "Wit brood met jam, banaan, honing, melk en kwark (zonder havermout)",
+                "items": [
+                  "175 g witbrood (5 sneetjes)",
+                  "50 g jam",
+                  "120 g banaan",
+                  "20 g honing",
+                  "300 ml halfvolle melk",
+                  "50 g magere kwark"
+                ],
+                "kcal": 893,
+                "p": 31.7,
+                "c": 170.6,
+                "f": 7.4,
+                "note": "Minder vet dan de havermoutvariant; op een laaddag is dat geen bezwaar"
+              }
+            ]
+          },
+          {
+            "id": "l-lunch",
+            "name": "Lunch",
+            "items": [
+              "210 g witbrood (6 sneetjes à 35 g)",
+              "110 g gekookt ei (2 eieren)",
+              "80 g magere kwark",
+              "40 g jam (op een deel van de sneetjes)"
+            ],
+            "kcal": 802,
+            "p": 39.3,
+            "c": 128.4,
+            "f": 13.1,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Zes sneetjes met 2 eieren, iets minder kwark en jam",
+                "items": [
+                  "210 g witbrood",
+                  "110 g gekookt ei",
+                  "50 g magere kwark",
+                  "35 g jam"
+                ],
+                "kcal": 774,
+                "p": 36.7,
+                "c": 124.2,
+                "f": 13.1
+              },
+              {
+                "name": "Vijf sneetjes met ei, kwark, jam en een glas chocomelk",
+                "items": [
+                  "175 g witbrood (5 sneetjes)",
+                  "110 g gekookt ei",
+                  "80 g magere kwark",
+                  "30 g jam",
+                  "150 ml chocomelk"
+                ],
+                "kcal": 804,
+                "p": 41.0,
+                "c": 123.3,
+                "f": 14.9
+              }
+            ]
+          },
+          {
+            "id": "l-tussen",
+            "name": "Tussendoor",
+            "items": [
+              "210 g krentenbol (3 bollen à 70 g)",
+              "300 ml sinaasappelsap"
+            ],
+            "kcal": 698,
+            "p": 19.4,
+            "c": 135.8,
+            "f": 5.6,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Twee krentenbollen, rijstwafels met jam, kwark en sap",
+                "items": [
+                  "140 g krentenbol",
+                  "27 g rijstwafel (3 stuks)",
+                  "15 g jam",
+                  "50 g magere kwark",
+                  "300 ml sinaasappelsap"
+                ],
+                "kcal": 679,
+                "p": 19.9,
+                "c": 133.0,
+                "f": 4.7
+              },
+              {
+                "name": "Drie krentenbollen, kleinere banaan en sap",
+                "items": [
+                  "210 g krentenbol",
+                  "100 g banaan",
+                  "200 ml sinaasappelsap"
+                ],
+                "kcal": 745,
+                "p": 19.9,
+                "c": 146.3,
+                "f": 5.8
+              }
+            ]
+          },
+          {
+            "id": "l-diner",
+            "name": "Diner",
+            "items": [
+              "200 g witte pasta (droog) (droog afgewogen, witte pasta)",
+              "125 g rundergehakt 15%",
+              "400 g tomatenblokjes (1 blik/pak)",
+              "80 g groente (weinig groente, laaddag)"
+            ],
+            "kcal": 1096,
+            "p": 54.0,
+            "c": 162.0,
+            "f": 23.6,
+            "estimate": false,
+            "note": "Geen linzen, weinig groente, witte pasta.",
+            "alternatives": [
+              {
+                "name": "Witte rijst met gehakt, tomatensaus en een schep kwark",
+                "items": [
+                  "200 g witte rijst (droog)",
+                  "125 g rundergehakt 15%",
+                  "400 g tomatenblokjes",
+                  "100 g magere kwark"
+                ],
+                "kcal": 1117,
+                "p": 50.6,
+                "c": 175.0,
+                "f": 22.4,
+                "note": "Kwark erbij om het eiwit te houden; rijst heeft minder eiwit dan pasta"
+              },
+              {
+                "name": "Pasta met gehakt, extra saus, zonder groente",
+                "items": [
+                  "200 g witte pasta (droog)",
+                  "125 g rundergehakt 15%",
+                  "500 g tomatenblokjes"
+                ],
+                "kcal": 1098,
+                "p": 53.9,
+                "c": 162.9,
+                "f": 23.8
+              }
+            ]
+          },
+          {
+            "id": "l-avond",
+            "name": "Avond",
+            "items": [
+              "250 g magere kwark",
+              "15 g honing",
+              "27 g rijstwafel (3 stuks à 9 g)"
+            ],
+            "kcal": 281,
+            "p": 23.2,
+            "c": 43.5,
+            "f": 0.9,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Kwark met honing, jam en een rijstwafel",
+                "items": [
+                  "250 g magere kwark",
+                  "15 g honing",
+                  "25 g jam",
+                  "9 g rijstwafel (1 stuk)"
+                ],
+                "kcal": 273,
+                "p": 21.8,
+                "c": 44.0,
+                "f": 0.3
+              },
+              {
+                "name": "Kwark met extra honing en twee rijstwafels",
+                "items": [
+                  "250 g magere kwark",
+                  "20 g honing",
+                  "18 g rijstwafel (2 stuks)"
+                ],
+                "kcal": 262,
+                "p": 22.5,
+                "c": 40.1,
+                "f": 0.6
+              }
+            ]
+          }
         ]
       },
-      race: {
-        label: "Racedag", title: "Racedag", emoji: "🏁", when: "zo 29 nov", sub: "",
-        targets: {},
-        notes: ["Niets nieuws op racedag: ontbijt testen vóór de opener van za 21 nov"],
-        meals: [
-          { id: "r-ontbijt", name: "3 uur vóór start", items: ["80 g havermout", "melk", "banaan", "honing", "2 witte boterhammen met jam"], kcal: 800, p: 25, c: 148, f: 12, estimate: true, alternatives: [] },
-          { id: "r-cafeine", name: "1 uur vóór start", items: ["evt. ~250 mg cafeïne (2–3 koppen), alleen als je dat gewend bent"], kcal: 0, p: 0, c: 0, f: 0, estimate: true, alternatives: [] },
-          { id: "r-herstel", name: "Na de finish", items: ["500 ml chocomelk", "krentenbol", "daarna een goede maaltijd"], kcal: 495, p: 22, c: 82, f: 9, estimate: true, alternatives: [] }
+      "race": {
+        "label": "Racedag",
+        "title": "Racedag",
+        "emoji": "🏁",
+        "when": "zo 29 nov",
+        "sub": "ontbijt 100–120 g KH",
+        "targets": {
+          "kcal": 2175,
+          "p": 113,
+          "c": 340,
+          "f": 35
+        },
+        "notes": [
+          "Niets nieuws op racedag: test dit ontbijt vóór de opener van za 21 nov.",
+          "Cafeïne alleen als je koffie gewend bent en het getest hebt."
+        ],
+        "meals": [
+          {
+            "id": "r-ontbijt",
+            "name": "Ontbijt, 3 uur voor de start",
+            "items": [
+              "80 g havermout",
+              "200 ml halfvolle melk",
+              "90 g banaan (iets kleinere banaan, zodat het ontbijt rond 120 g KH blijft)",
+              "10 g honing",
+              "70 g witbrood (2 sneetjes)",
+              "10 g jam"
+            ],
+            "kcal": 696,
+            "p": 24.4,
+            "c": 122.5,
+            "f": 9.2,
+            "estimate": false,
+            "note": "Test dit ontbijt vóór de race, bijvoorbeeld bij de opener. Op racedag niets nieuws.",
+            "alternatives": [
+              {
+                "name": "Iets meer havermout en één witte boterham",
+                "items": [
+                  "90 g havermout",
+                  "250 ml halfvolle melk",
+                  "100 g banaan",
+                  "15 g honing",
+                  "35 g witbrood (1 snee)",
+                  "10 g jam"
+                ],
+                "kcal": 694,
+                "p": 24.3,
+                "c": 119.9,
+                "f": 10.0
+              },
+              {
+                "name": "Havermout met drie sneetjes wit brood en jam",
+                "items": [
+                  "50 g havermout",
+                  "200 ml halfvolle melk",
+                  "105 g witbrood (3 sneetjes)",
+                  "20 g jam",
+                  "100 g banaan",
+                  "15 g honing"
+                ],
+                "kcal": 723,
+                "p": 23.9,
+                "c": 133.7,
+                "f": 7.9
+              }
+            ]
+          },
+          {
+            "id": "r-cafeine",
+            "name": "Optioneel: cafeïne, 1 uur voor de start",
+            "items": [
+              "300 ml koffie (2–3 koppen, ~250 mg cafeïne)"
+            ],
+            "kcal": 3,
+            "p": 0.6,
+            "c": 0.3,
+            "f": 0.0,
+            "estimate": false,
+            "note": "Alleen als je koffie gewend bent en dit hebt getest. Macro's zijn verwaarloosbaar.",
+            "optional": true,
+            "alternatives": [
+              {
+                "name": "Drie korte espresso's (~250 mg cafeïne)",
+                "items": [
+                  "90 ml koffie (3 espresso's, tesamen ~90 ml)"
+                ],
+                "kcal": 1,
+                "p": 0.2,
+                "c": 0.1,
+                "f": 0.0,
+                "note": "Alleen als je espresso gewend bent; macro's zijn verwaarloosbaar"
+              },
+              {
+                "name": "Overslaan",
+                "items": [],
+                "kcal": 0,
+                "p": 0.0,
+                "c": 0.0,
+                "f": 0.0,
+                "note": "Geen cafeïne op racedag als je dit niet eerder hebt getest"
+              }
+            ]
+          },
+          {
+            "id": "r-herstel",
+            "name": "Herstel binnen 2 uur na de finish",
+            "items": [
+              "500 ml chocomelk",
+              "70 g krentenbol",
+              "100 g magere kwark (toegevoegd om op ~30 g eiwit te komen)"
+            ],
+            "kcal": 619,
+            "p": 30.8,
+            "c": 99.1,
+            "f": 9.8,
+            "estimate": false,
+            "note": "Doel: 0,2–0,4 g eiwit/kg (17–33 g) en 0,8–1,2 g KH/kg (67–100 g). 100 g kwark is toegevoegd om het eiwit op ~30 g te krijgen.",
+            "alternatives": [
+              {
+                "name": "Chocomelk, krentenbol, iets minder kwark en honing",
+                "items": [
+                  "500 ml chocomelk",
+                  "70 g krentenbol",
+                  "80 g magere kwark",
+                  "10 g honing"
+                ],
+                "kcal": 641,
+                "p": 29.1,
+                "c": 106.3,
+                "f": 9.8
+              },
+              {
+                "name": "Chocomelk, witte boterham met jam en kwark",
+                "items": [
+                  "500 ml chocomelk",
+                  "70 g witbrood",
+                  "15 g jam",
+                  "100 g magere kwark"
+                ],
+                "kcal": 642,
+                "p": 31.2,
+                "c": 106.1,
+                "f": 9.1
+              }
+            ]
+          },
+          {
+            "id": "r-diner",
+            "name": "Goede maaltijd later op de dag",
+            "items": [
+              "150 g witte pasta (droog) (droog afgewogen)",
+              "150 g kipfilet (rauw)",
+              "200 g tomatenblokjes",
+              "80 g groente (weinig groente als je buik nog vol zit)",
+              "10 g olijfolie"
+            ],
+            "kcal": 857,
+            "p": 56.8,
+            "c": 118.2,
+            "f": 16.0,
+            "estimate": false,
+            "note": "Geen linzen; houd de portie groente klein als je buik nog gevoelig is. Eet gerust extra pasta, brood of kwark als je honger hebt.",
+            "alternatives": [
+              {
+                "name": "Rijst met iets meer kip, tomatensaus en olie",
+                "items": [
+                  "150 g witte rijst (droog)",
+                  "180 g kipfilet (rauw)",
+                  "200 g tomatenblokjes",
+                  "80 g groente",
+                  "10 g olijfolie"
+                ],
+                "kcal": 884,
+                "p": 55.8,
+                "c": 127.2,
+                "f": 15.8,
+                "note": "Iets meer kip omdat rijst minder eiwit heeft dan pasta"
+              },
+              {
+                "name": "Pasta met ei, kwark en tomatensaus (als de kip op is)",
+                "items": [
+                  "150 g witte pasta (droog)",
+                  "110 g gekookt ei",
+                  "250 g magere kwark",
+                  "200 g tomatenblokjes",
+                  "3 g olijfolie"
+                ],
+                "kcal": 877,
+                "p": 55.2,
+                "c": 124.9,
+                "f": 15.7
+              }
+            ]
+          }
         ]
       },
-      rust: {
-        label: "Rust", title: "Rustdag", emoji: "🛋️", when: "", sub: "plan volgt van Foodie",
-        targets: {}, notes: [], meals: []          // leeg = toon melding "plan volgt"
+      "rust": {
+        "label": "Rust",
+        "title": "Rustdag",
+        "emoji": "🛋️",
+        "when": "sjabloon",
+        "sub": "doel 2800–3100 kcal",
+        "targets": {
+          "kcal": 2940,
+          "p": 172,
+          "c": 390,
+          "f": 65
+        },
+        "notes": [
+          "Niet in deze raceweek gepland; sjabloon voor een rustdag in een gewone trainingsweek, met dezelfde boodschappen."
+        ],
+        "meals": [
+          {
+            "id": "rs-ontbijt",
+            "name": "Ontbijt",
+            "items": [
+              "100 g havermout",
+              "300 ml halfvolle melk",
+              "120 g banaan (1 banaan)",
+              "15 g pindakaas (1 eetlepel)"
+            ],
+            "kcal": 710,
+            "p": 27.7,
+            "c": 98.8,
+            "f": 19.2,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Havermout met melk, banaan en pindakaas",
+                "items": [
+                  "90 g havermout",
+                  "300 ml halfvolle melk",
+                  "120 g banaan",
+                  "20 g pindakaas"
+                ],
+                "kcal": 706,
+                "p": 27.5,
+                "c": 93.4,
+                "f": 21.4
+              },
+              {
+                "name": "Bruin brood met pindakaas, honing, banaan en melk",
+                "items": [
+                  "105 g bruinbrood (3 sneetjes)",
+                  "25 g pindakaas",
+                  "15 g honing",
+                  "120 g banaan",
+                  "250 ml halfvolle melk"
+                ],
+                "kcal": 686,
+                "p": 25.9,
+                "c": 95.7,
+                "f": 19.9
+              }
+            ]
+          },
+          {
+            "id": "rs-lunch",
+            "name": "Lunch",
+            "items": [
+              "140 g bruinbrood (4 sneetjes à 35 g)",
+              "110 g gekookt ei (2 eieren)",
+              "80 g komkommer",
+              "80 g tomaat"
+            ],
+            "kcal": 502,
+            "p": 28.6,
+            "c": 64.4,
+            "f": 13.0,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Vier sneetjes met pindakaas, kwark, komkommer en tomaat",
+                "items": [
+                  "140 g bruinbrood",
+                  "15 g pindakaas",
+                  "100 g magere kwark",
+                  "80 g komkommer",
+                  "80 g tomaat"
+                ],
+                "kcal": 510,
+                "p": 26.8,
+                "c": 69.7,
+                "f": 11.8
+              },
+              {
+                "name": "Vier sneetjes met 1 ei, kwark, pindakaas en groente",
+                "items": [
+                  "140 g bruinbrood",
+                  "55 g gekookt ei (1 ei)",
+                  "80 g magere kwark",
+                  "8 g pindakaas",
+                  "80 g komkommer",
+                  "80 g tomaat"
+                ],
+                "kcal": 525,
+                "p": 30.3,
+                "c": 68.2,
+                "f": 12.7
+              }
+            ]
+          },
+          {
+            "id": "rs-tussen",
+            "name": "Tussendoor",
+            "items": [
+              "70 g krentenbol (1 bol)",
+              "25 g ongezouten pinda's"
+            ],
+            "kcal": 344,
+            "p": 12.2,
+            "c": 38.7,
+            "f": 14.7,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Krentenbol met pindakaas",
+                "items": [
+                  "70 g krentenbol",
+                  "25 g pindakaas"
+                ],
+                "kcal": 351,
+                "p": 11.5,
+                "c": 38.3,
+                "f": 15.9
+              },
+              {
+                "name": "Havermout, pinda's, banaan en melk",
+                "items": [
+                  "30 g havermout",
+                  "22 g ongezouten pinda's",
+                  "80 g banaan",
+                  "80 ml halfvolle melk"
+                ],
+                "kcal": 357,
+                "p": 13.0,
+                "c": 40.1,
+                "f": 14.6
+              }
+            ]
+          },
+          {
+            "id": "rs-middag",
+            "name": "Middag",
+            "items": [
+              "250 g magere kwark",
+              "40 g havermout",
+              "150 g appel (1 middelgrote appel)"
+            ],
+            "kcal": 358,
+            "p": 26.6,
+            "c": 51.2,
+            "f": 2.8,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Kwark met havermout en appel",
+                "items": [
+                  "250 g magere kwark",
+                  "35 g havermout",
+                  "150 g appel"
+                ],
+                "kcal": 340,
+                "p": 25.9,
+                "c": 48.2,
+                "f": 2.5
+              },
+              {
+                "name": "Kwark met krentenbol en honing",
+                "items": [
+                  "250 g magere kwark",
+                  "70 g krentenbol",
+                  "10 g honing"
+                ],
+                "kcal": 347,
+                "p": 26.9,
+                "c": 53.3,
+                "f": 1.8,
+                "note": "Iets meer koolhydraten, iets minder vezels dan de basis; vet blijft laag"
+              }
+            ]
+          },
+          {
+            "id": "rs-diner",
+            "name": "Diner",
+            "items": [
+              "120 g witte rijst (droog) (droog afgewogen, iets minder dan op een trainingsdag)",
+              "150 g kipfilet (rauw)",
+              "250 g groente",
+              "10 g olijfolie",
+              "40 g groene linzen (droog)"
+            ],
+            "kcal": 866,
+            "p": 55.5,
+            "c": 119.6,
+            "f": 15.3,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Pasta met kip, groente en linzen",
+                "items": [
+                  "120 g witte pasta (droog)",
+                  "150 g kipfilet (rauw)",
+                  "250 g groente",
+                  "10 g olijfolie",
+                  "30 g groene linzen (droog)"
+                ],
+                "kcal": 840,
+                "p": 59.8,
+                "c": 108.1,
+                "f": 15.7
+              },
+              {
+                "name": "Rijst met kip en ei, zonder linzen",
+                "items": [
+                  "130 g witte rijst (droog)",
+                  "150 g kipfilet (rauw)",
+                  "55 g gekookt ei",
+                  "250 g groente",
+                  "6 g olijfolie"
+                ],
+                "kcal": 813,
+                "p": 54.6,
+                "c": 110.2,
+                "f": 15.6
+              }
+            ]
+          },
+          {
+            "id": "rs-avond",
+            "name": "Avond",
+            "items": [
+              "250 g magere kwark",
+              "10 g honing"
+            ],
+            "kcal": 160,
+            "p": 21.0,
+            "c": 17.5,
+            "f": 0.0,
+            "estimate": false,
+            "alternatives": [
+              {
+                "name": "Kwark met jam",
+                "items": [
+                  "250 g magere kwark",
+                  "12 g jam"
+                ],
+                "kcal": 157,
+                "p": 21.0,
+                "c": 16.8,
+                "f": 0.0
+              },
+              {
+                "name": "Kwark met een rijstwafel",
+                "items": [
+                  "250 g magere kwark",
+                  "9 g rijstwafel (1 stuk)"
+                ],
+                "kcal": 163,
+                "p": 21.7,
+                "c": 16.8,
+                "f": 0.3
+              }
+            ]
+          }
+        ]
       }
     },
-    shopping: {
-      id: "2026-11-23",
-      title: "Boodschappenlijst", store: "Lidl", label: "raceweek 23–29 nov",
-      budget: 60, statedTotal: 59.98,
-      note: "Prijzen van 20 nov, bananen geschat. Vinkjes blijven op dit apparaat bewaard. Plan: Foodie.",
-      items: [
-        { id: "0",  qty: "1 kg",  name: "havermout", price: null },
-        { id: "1",  qty: "3 L",   name: "halfvolle melk", price: null },
-        { id: "2",  qty: "1 pak", name: "muesli", price: null },
-        { id: "3",  qty: "18",    name: "bananen", price: null },
-        { id: "4",  qty: "",      name: "appels (zak 2 kg)", price: null },
-        { id: "5",  qty: "2",     name: "bruine broden", price: null },
-        { id: "6",  qty: "2",     name: "witte broden", price: null },
-        { id: "7",  qty: "16",    name: "krentenbollen", price: null },
-        { id: "8",  qty: "3 kg",  name: "magere kwark", price: null },
-        { id: "9",  qty: "18",    name: "eieren", price: null },
-        { id: "10", qty: "1 kg",  name: "kipfilet", price: null },
-        { id: "11", qty: "500 g", name: "rundergehakt (15% vet)", price: null },
-        { id: "12", qty: "500 g", name: "groene linzen", price: null },
-        { id: "13", qty: "1 kg",  name: "rijst", price: null },
-        { id: "14", qty: "1 kg",  name: "witte pasta", price: null },
-        { id: "15", qty: "750 g", name: "diepvriesgroente", price: null },
-        { id: "16", qty: "",      name: "komkommer + tomaten", price: null },
-        { id: "17", qty: "2×",    name: "tomatenblokjes / pastasaus", price: null },
-        { id: "18", qty: "",      name: "pindakaas", price: null },
-        { id: "19", qty: "",      name: "honing", price: null },
-        { id: "20", qty: "",      name: "jam", price: null },
-        { id: "21", qty: "200 g", name: "ongezouten pinda's", price: null },
-        { id: "22", qty: "",      name: "rijstwafels", price: null },
-        { id: "23", qty: "1 L",   name: "sap of ranja", price: null },
-        { id: "24", qty: "1 L",   name: "chocomelk (na de race)", price: null }
+    "shopping": {
+      "id": "2026-11-23-v2",
+      "title": "Boodschappenlijst",
+      "store": "Lidl",
+      "label": "raceweek 23–29 nov",
+      "budget": 60,
+      "statedTotal": 57.69,
+      "totalNote": "+ wortels/kool · prijzen wortels/kool nog niet nagekeken",
+      "note": "Muesli geschrapt (havermout in de plaats), daarvan losse wortels en een witte kool. Bananen geschat (~€1,15/kg). Olijfolie uit de voorraad. Vinkjes blijven op dit apparaat bewaard. Plan: Foodie.",
+      "items": [
+        {
+          "id": "0",
+          "qty": "2 × 500 g",
+          "name": "havermout",
+          "price": 1.48
+        },
+        {
+          "id": "1",
+          "qty": "3 × 1 L",
+          "name": "halfvolle melk",
+          "price": 2.46
+        },
+        {
+          "id": "2",
+          "qty": "~3,6 kg",
+          "name": "bananen",
+          "price": 4.14,
+          "note": "Prijs geschat, ~€1,15 per kg; aan de kassa kan het een paar dubbeltjes schelen"
+        },
+        {
+          "id": "3",
+          "qty": "zak 2 kg",
+          "name": "appels",
+          "price": 1.89
+        },
+        {
+          "id": "4",
+          "qty": "2 × 800 g",
+          "name": "bruinbrood",
+          "price": 1.86
+        },
+        {
+          "id": "5",
+          "qty": "2 × 800 g",
+          "name": "witbrood",
+          "price": 1.86
+        },
+        {
+          "id": "6",
+          "qty": "3 × 6 stuks",
+          "name": "krentenbollen",
+          "price": 4.44
+        },
+        {
+          "id": "7",
+          "qty": "3 × 1 kg",
+          "name": "magere kwark",
+          "price": 5.07
+        },
+        {
+          "id": "8",
+          "qty": "3 × 6 stuks",
+          "name": "eieren",
+          "price": 4.77
+        },
+        {
+          "id": "9",
+          "qty": "1 kg",
+          "name": "kipfilet",
+          "price": 8.99
+        },
+        {
+          "id": "10",
+          "qty": "500 g",
+          "name": "rundergehakt 15% vet",
+          "price": 5.89
+        },
+        {
+          "id": "11",
+          "qty": "500 g",
+          "name": "groene linzen",
+          "price": 1.49
+        },
+        {
+          "id": "12",
+          "qty": "1 kg",
+          "name": "rijst",
+          "price": 0.63
+        },
+        {
+          "id": "13",
+          "qty": "1 kg",
+          "name": "spaghetti",
+          "price": 0.74
+        },
+        {
+          "id": "14",
+          "qty": "750 g",
+          "name": "diepvriesgroente",
+          "price": 1.79,
+          "note": "Aangevuld met losse wortels en een witte kool (Foodie)"
+        },
+        {
+          "id": "15",
+          "qty": "",
+          "name": "1 komkommer + tomaten",
+          "price": 1.74
+        },
+        {
+          "id": "16",
+          "qty": "2 stuks",
+          "name": "tomatenblokjes",
+          "price": 0.84
+        },
+        {
+          "id": "17",
+          "qty": "600 g",
+          "name": "pindakaas",
+          "price": 1.38
+        },
+        {
+          "id": "18",
+          "qty": "1 pot",
+          "name": "honing",
+          "price": 1.63
+        },
+        {
+          "id": "19",
+          "qty": "1 pot",
+          "name": "jam",
+          "price": 1.19
+        },
+        {
+          "id": "20",
+          "qty": "200 g",
+          "name": "ongezouten pinda's",
+          "price": 0.62
+        },
+        {
+          "id": "21",
+          "qty": "1 pak",
+          "name": "rijstwafels",
+          "price": 0.55
+        },
+        {
+          "id": "22",
+          "qty": "1,5 L",
+          "name": "sinaasappelsap",
+          "price": 1.45
+        },
+        {
+          "id": "23",
+          "qty": "1 L",
+          "name": "chocomelk (na de race)",
+          "price": 0.79
+        },
+        {
+          "id": "24",
+          "qty": "~500 g",
+          "name": "losse wortels",
+          "price": null,
+          "note": "prijs nog niet nagekeken"
+        },
+        {
+          "id": "25",
+          "qty": "1",
+          "name": "witte kool",
+          "price": null,
+          "note": "prijs nog niet nagekeken"
+        }
       ]
     }
   }
@@ -468,7 +1590,7 @@ const CLIENT = {
       document.documentElement.style.setProperty("--accent", "#" + full);
       document.documentElement.style.setProperty("--accent-rgb", [(n >> 16) & 255, (n >> 8) & 255, n & 255].join(","));
     }
-    document.title = C.appTitle || "Dashboard";
+    document.title = C.appTitle || "JPTR";
   })();
 
   /* ---------- opslag ---------- */
@@ -554,7 +1676,7 @@ const CLIENT = {
     const alts = Array.isArray(m.alternatives) ? m.alternatives : [];
     const i = (S.swaps[m.id] || 0) % (alts.length + 1);
     if (!i) return Object.assign({}, m, { _v: 0, _n: alts.length });
-    return Object.assign({}, m, alts[i - 1], { id: m.id, estimate: alts[i - 1].estimate != null ? alts[i - 1].estimate : m.estimate, _v: i, _n: alts.length });
+    return Object.assign({}, m, alts[i - 1], { id: m.id, name: m.name, altName: alts[i - 1].name, estimate: alts[i - 1].estimate != null ? alts[i - 1].estimate : m.estimate, _v: i, _n: alts.length });
   }
   const mealDayKey = (typeKey) => TODAY_ISO + "|" + typeKey;
   function mealChecked(typeKey, id) { const d = S.meals[mealDayKey(typeKey)]; return !!(d && d[id]); }
@@ -584,7 +1706,7 @@ const CLIENT = {
         <button class="tick${on ? " on" : ""}" data-act="meal" aria-label="${esc(m.name)} gegeten">${ICON_CHECK}</button>
         <div class="meal-main">
           <div class="meal-t"><b>${esc(m.name)}</b><span class="kc">${fmt(m.kcal || 0)} kcal</span></div>
-          <div class="meal-items">${esc(items)}</div>
+          <div class="meal-items">${m.altName ? `<b style="color:var(--accent)">${esc(m.altName)}:</b> ` : ""}${esc(items)}</div>${m.note ? `<div class="meal-note">${esc(m.note)}</div>` : ""}
           <div class="meal-m"><i class="p">E ${fmt(m.p || 0)} g</i><i class="c">K ${fmt(m.c || 0)} g</i><i class="f">V ${fmt(m.f || 0)} g</i>${m.estimate ? '<span class="est">schatting</span>' : ""}
             ${m._n ? `<button class="swap" data-act="swap">${ICON_SWAP} Ruil ${m._v + 1}/${m._n + 1}</button>` : ""}</div>
         </div></div>`;
@@ -623,9 +1745,9 @@ const CLIENT = {
   }
   function renderHeader() {
     $("#hdrWeek").textContent = [C.week && C.week.label, C.week && C.week.phase].filter(Boolean).join(" · ");
-    $("#hdrTitle").textContent = (C.appTitle || "Dashboard");
+    $("#hdrTitle").textContent = (C.appTitle || "JPTR");
     $("#hdrCount").innerHTML = C.race ? "🏁 " + countdownText() : "";
-    $("#foot").textContent = (C.appTitle || "Dashboard") + " · " + C.name + " · data blijft lokaal op dit apparaat";
+    $("#foot").textContent = (C.appTitle || "JPTR") + " · " + C.name + " · data blijft lokaal op dit apparaat";
   }
 
   function renderVandaag() {
@@ -690,12 +1812,12 @@ const CLIENT = {
       const t = shopTotals(), pct = sh.budget ? Math.min(100, t.total / sh.budget * 100) : 0, nDone = (sh.items || []).filter(i => S.shop[sh.id + ":" + i.id]).length;
       shopHTML = `<div class="sec"><span>🛒 ${esc(sh.title || "Boodschappen")}</span><span class="dim">${esc([sh.store, sh.label].filter(Boolean).join(" · "))}</span></div>
       <div class="card">
-        <div class="row"><span class="small muted">Budget</span><span><b class="num" style="font-size:1.3rem">${t.allPriced ? "" : "~"}${eur(t.total)}</b> <span class="muted small">/ ${eur(sh.budget || 0)}</span></span></div>
+        <div class="row"><span class="small muted">Budget</span><span><b class="num" style="font-size:1.3rem">${t.allPriced ? "" : "~"}${eur(t.total)}</b> <span class="muted small">/ ${eur(sh.budget || 0)}</span></span></div>${!t.allPriced && sh.totalNote ? `<div class="small muted" style="text-align:right;margin-top:2px">${esc(sh.totalNote)}</div>` : ""}
         <div class="bar${t.total > (sh.budget || Infinity) ? " warn" : ""}" style="margin-top:8px"><i style="width:${pct}%"></i></div>
         <div class="row small muted" style="margin-top:8px"><span>${nDone} / ${(sh.items || []).length} afgevinkt</span><span>${t.hasPrices ? "in mandje " + eur(t.checked) : "nog € " + fmt(Math.max(0, (sh.budget || 0) - t.total), 2) + " over"}</span></div>
         <div class="shop" style="margin-top:10px">${(sh.items || []).map(i => {
           const k = sh.id + ":" + i.id;
-          return `<label><input type="checkbox" data-shop="${esc(k)}"${S.shop[k] ? " checked" : ""}><span class="bx"></span><span class="it">${esc([i.qty, i.name].filter(Boolean).join(" "))}</span>${typeof i.price === "number" ? `<span class="pr">${eur(i.price)}</span>` : ""}</label>`;
+          return `<label><input type="checkbox" data-shop="${esc(k)}"${S.shop[k] ? " checked" : ""}><span class="bx"></span><span class="it">${esc([i.qty, i.name].filter(Boolean).join(" "))}${i.note ? `<small>${esc(i.note)}</small>` : ""}</span>${typeof i.price === "number" ? `<span class="pr">${eur(i.price)}</span>` : ""}</label>`;
         }).join("")}</div>
         ${sh.note ? `<p class="note">${esc(sh.note)}</p>` : ""}
         <button class="btn ghost" data-act="shopreset" style="margin-top:12px;width:100%">Alle vinkjes wissen</button>
@@ -704,7 +1826,7 @@ const CLIENT = {
     $("#v-voeding").innerHTML = `
       <div class="seg" role="tablist">${keys.map(k => `<button data-act="dtype" data-k="${esc(k)}" class="${k === voedType ? "on" : ""}">${esc(dt(k).label || k)}</button>`).join("")}</div>
       <div class="sec"><span>${esc(d.emoji || "")} ${esc(d.title || voedType)}${d.when ? " · " + esc(d.when) : ""}</span><span class="dim">${esc(d.sub || "")}</span></div>
-      <div class="card" data-rings="${esc(voedType)}">${ringsHTML(voedType)}${anyEstimate() ? `<p class="note"><span class="est">schatting</span> Macro's per maaltijd zijn voorlopige schattingen; exacte waarden volgen${N.by ? " van " + esc(N.by) : ""}.</p>` : ""}</div>
+      <div class="card" data-rings="${esc(voedType)}">${ringsHTML(voedType)}${anyEstimate() ? `<p class="note"><span class="est">schatting</span> Macro's per maaltijd zijn voorlopige schattingen; exacte waarden volgen${N.by ? " van " + esc(N.by) : ""}.</p>` : ""}${N.source ? `<p class="src">${esc(N.source)}</p>` : ""}</div>
       <div class="card" data-meals="${esc(voedType)}">${mealsHTML(voedType)}${planNotesHTML(voedType)}</div>
       ${sc ? `<div class="card"><h3>📅 ${esc(sc.label || "Weekplan")}</h3><div class="strip">${sc.days.map((k, i) => { const dd = addDays(parseDate(sc.startDate), i); return `<button data-act="dtype" data-k="${esc(k)}" class="t-${esc(k)}${iso(dd) === TODAY_ISO ? " today" : ""}"><span class="d">${DAYS[wdIdx(dd)]}</span><span class="n">${dd.getDate()}</span><span class="lb">${esc(((dt(k) || {}).label || k).slice(0, 4))}</span></button>`; }).join("")}</div></div>` : ""}
       ${N.summary ? `<div class="card"><h3>🍽️ ${esc(N.summary.title)}</h3><div class="res sum">${(N.summary.stats || []).map(x => `<div><b>${esc(x.v)}</b><span>${esc(x.l)}</span></div>`).join("")}</div>${N.summary.note ? `<p class="note">${esc(N.summary.note)}</p>` : ""}</div>` : ""}
