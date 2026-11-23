@@ -160,6 +160,7 @@ textarea:focus,input:focus{border-color:rgba(var(--accent-rgb),.6)}
 .meal-t b{font-size:.95rem}
 .meal-t .kc{font-size:.8rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .meal-items{font-size:.84rem;color:#cdd5e1;margin-top:2px}
+.mtime{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.04em;color:var(--accent);background:rgba(var(--accent-rgb),.12);border:1px solid rgba(var(--accent-rgb),.3);padding:1px 7px;border-radius:999px;margin-right:8px;vertical-align:middle}
 .meal-note{font-size:.74rem;color:var(--muted);margin-top:3px;font-style:italic}
 .shop .it small{display:block;font-size:.7rem;color:var(--muted)}
 .src{font-size:.72rem;color:var(--muted);margin-top:10px;letter-spacing:.02em}
@@ -328,10 +329,10 @@ const CLIENT = {
         details: ["16:00–17:30 · ~50 min", "Bovenlichaam push/pull (bankdrukken, rows, pull-ups) 2–3×6–8, 2 reps in reserve", "Iets lichter dan normaal · nooit tot falen", "Core + heup/knie-mobility 10 min"] },
       { id: "di", day: "di", name: "Partnertraining stations (Double)", type: "hyrox", tags: ["partner", "stations", "16:00"], rpe: 6, dayType: "normaal",
         details: ["16:00–17:30 · met je Double-partner · RPE max 6", "10 min inlopen + mobility", "Alle 8 stations op laag volume: SkiErg, sled push, sled pull, BBJ, roeien, farmers, sandbag lunges, wall balls", "Wissels oefenen: spreek per station af wie wat doet en waar jullie wisselen", "2–3× 400 m op racetempo (4:20–4:30/km), rustig terug"] },
-      { id: "wo", day: "wo", name: "Z2 run + strides", type: "duur", tags: ["run", "Z2", "16:00"], rpe: 4, dayType: "normaal",
-        details: ["16:00–17:30", "30–35 min Z2, HS 140–152", "4× 20 s strides, ruim rustig terug", "Écht easy houden"] },
-      { id: "do", day: "do", name: "Sharpener racetempo", type: "interval", tags: ["run", "racetempo", "fysio vandaag – afstemmen"], rpe: 7, dayType: "normaal",
-        details: ["Fysio vandaag (12:00) – afstemmen: tijd en inhoud overleggen na de fysio", "10 min inlopen", "3× 1 km @ 4:20–4:30/km met 2 min rust", "2× 250 m SkiErg + 2× 250 m roeien, easy-moderate", "Uitlopen 5–10 min"] },
+      { id: "wo", day: "wo", name: "Sharpener racetempo", type: "interval", tags: ["run", "racetempo", "16:00"], rpe: 7, dayType: "normaal",
+        details: ["16:00–17:30 · laatste scherpe sessie", "10 min inlopen", "3× 1 km @ 4:20–4:30/km met 2 min rust", "2× 250 m SkiErg + 2× 250 m roeien, easy-moderate", "Uitlopen 5–10 min"] },
+      { id: "do", day: "do", name: "Z2 run (na fysio)", type: "duur", tags: ["run", "Z2", "na fysio", "16:00"], rpe: 4, dayType: "normaal",
+        details: ["16:00–17:30 · na fysio (12:00)", "30 min Z2, HS 140–152", "Écht easy · voelt iets niet goed na de fysio, dan rustig wandelen/mobility"] },
       { id: "vr", day: "vr", name: "Rust + mobility (laaddag)", type: "rust", tags: ["rust", "laad"], rpe: 1, dayType: "laad",
         details: ["Geen training", "15 min heup/knie-mobility", "Laaddag: extra koolhydraten, weinig vezels"] },
       { id: "za", day: "za", name: "Shakeout + activatie (laaddag)", type: "duur", tags: ["run", "Z1", "laad", "16:00"], rpe: 3, dayType: "laad",
@@ -420,6 +421,7 @@ const CLIENT = {
             "c": 98.8,
             "f": 19.2,
             "estimate": false,
+            "time": "08:00",
             "alternatives": [
               {
                 "name": "Havermout met melk, banaan en pindakaas",
@@ -464,6 +466,7 @@ const CLIENT = {
             "c": 64.4,
             "f": 13.0,
             "estimate": false,
+            "time": "12:30",
             "alternatives": [
               {
                 "name": "Vier sneetjes met pindakaas, kwark, komkommer en tomaat",
@@ -508,6 +511,8 @@ const CLIENT = {
             "c": 74.5,
             "f": 16.4,
             "estimate": false,
+            "time": "14:30",
+            "note": "1,5–2 uur vóór de training (16:00). Pinda's bewaar je voor de avond, bij de kwark.",
             "alternatives": [
               {
                 "name": "Twee krentenbollen met pindakaas",
@@ -548,6 +553,8 @@ const CLIENT = {
             "c": 51.2,
             "f": 2.8,
             "estimate": false,
+            "time": "na training",
+            "note": "Direct na de training, als herstelmoment.",
             "alternatives": [
               {
                 "name": "Omelet van 3 eieren + 2 bruine boterhammen + appel",
@@ -593,6 +600,7 @@ const CLIENT = {
             "c": 144.0,
             "f": 15.5,
             "estimate": false,
+            "time": "18:30",
             "note": "Linzen alleen op maandag t/m donderdag, niet op laaddagen.",
             "alternatives": [
               {
@@ -640,6 +648,7 @@ const CLIENT = {
             "c": 21.5,
             "f": 0.0,
             "estimate": false,
+            "time": "avond",
             "alternatives": [
               {
                 "name": "Kwark met jam",
@@ -702,6 +711,7 @@ const CLIENT = {
             "c": 161.2,
             "f": 11.9,
             "estimate": false,
+            "time": "08:00",
             "note": "Weinig vezelrijk beleg; wit brood en jam erbij.",
             "alternatives": [
               {
@@ -751,6 +761,7 @@ const CLIENT = {
             "c": 128.4,
             "f": 13.1,
             "estimate": false,
+            "time": "12:30",
             "alternatives": [
               {
                 "name": "Zes sneetjes met 2 eieren, iets minder kwark en jam",
@@ -793,6 +804,8 @@ const CLIENT = {
             "c": 135.8,
             "f": 5.6,
             "estimate": false,
+            "time": "14:30",
+            "note": "1,5–2 uur vóór de training (za 16:00).",
             "alternatives": [
               {
                 "name": "Twee krentenbollen, rijstwafels met jam, kwark en sap",
@@ -836,6 +849,7 @@ const CLIENT = {
             "c": 162.0,
             "f": 23.6,
             "estimate": false,
+            "time": "18:30",
             "note": "Geen linzen, weinig groente, witte pasta.",
             "alternatives": [
               {
@@ -879,6 +893,7 @@ const CLIENT = {
             "c": 43.5,
             "f": 0.9,
             "estimate": false,
+            "time": "avond",
             "alternatives": [
               {
                 "name": "Kwark met honing, jam en een rijstwafel",
@@ -1705,7 +1720,7 @@ const CLIENT = {
       return `<div class="meal${on ? " done" : ""}" data-meal="${esc(m.id)}" data-type="${esc(typeKey)}">
         <button class="tick${on ? " on" : ""}" data-act="meal" aria-label="${esc(m.name)} gegeten">${ICON_CHECK}</button>
         <div class="meal-main">
-          <div class="meal-t"><b>${esc(m.name)}</b><span class="kc">${fmt(m.kcal || 0)} kcal</span></div>
+          <div class="meal-t"><b>${m.time ? `<span class="mtime">${esc(m.time)}</span>` : ""}${esc(m.name)}</b><span class="kc">${fmt(m.kcal || 0)} kcal</span></div>
           <div class="meal-items">${m.altName ? `<b style="color:var(--accent)">${esc(m.altName)}:</b> ` : ""}${esc(items)}</div>${m.note ? `<div class="meal-note">${esc(m.note)}</div>` : ""}
           <div class="meal-m"><i class="p">E ${fmt(m.p || 0)} g</i><i class="c">K ${fmt(m.c || 0)} g</i><i class="f">V ${fmt(m.f || 0)} g</i>${m.estimate ? '<span class="est">schatting</span>' : ""}
             ${m._n ? `<button class="swap" data-act="swap">${ICON_SWAP} Ruil ${m._v + 1}/${m._n + 1}</button>` : ""}</div>
