@@ -2,6 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JPTR</title>
 <meta name="theme-color" content="#070b14">
@@ -1984,6 +1985,26 @@ const CLIENT = {
 
   renderHeader();
   show(location.hash.slice(1) || "vandaag", true);
+})();
+</script>
+<script>
+/* Auto-update: haalt bij openen de nieuwste versie op en herlaadt als de data is gewijzigd (geen nieuw beginscherm-icoon nodig). */
+(function(){
+  var busy=false;
+  function check(){
+    if(busy) return; busy=true;
+    fetch(location.pathname+'?nocache='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():null}).then(function(t){
+      busy=false; if(!t) return;
+      var d=new DOMParser().parseFromString(t,'text/html');
+      var a=d.scripts[0], b=document.scripts[0];
+      if(a&&b&&a.textContent.trim()!==b.textContent.trim()){
+        location.replace(location.pathname+'?r='+Date.now()+location.hash);
+      }
+    }).catch(function(){busy=false;});
+  }
+  window.addEventListener('load',check);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible') check(); });
+  window.addEventListener('pageshow',function(e){ if(e.persisted) check(); });
 })();
 </script>
 </body>
