@@ -319,25 +319,25 @@ const CLIENT = {
 
   /* ---- TRAININGSWEEK (dit deel wordt elke maandag vervangen) ---- */
   week: {
-    id: "2026-11-16",
-    label: "Week 16–22 nov",
-    phase: "taper-week",
-    startDate: "2026-11-16",            // maandag van de week (JJJJ-MM-DD)
+    id: "w48-2026",
+    label: "Raceweek 23–29 nov",
+    phase: "raceweek",
+    startDate: "2026-11-23",            // maandag van de week (JJJJ-MM-DD)
     sessions: [
-      { id: "ma", day: "ma", name: "Upper + sled (taper-volume)", type: "kracht", tags: ["kracht", "sled"], rpe: 7,
-        details: ["Sled push 4×25 m (Pro+)", "Sled pull 4×25 m (Pro+)", "Bovenlichaam push/pull 3×6–8, 1–2 reps in reserve", "SkiErg 3×500 m op racetempo", "Roeien 3×500 m op racetempo"] },
-      { id: "di", day: "di", name: "Z2 run + techniek zwakke punten", type: "duur", tags: ["run", "Z2"], rpe: 5,
-        details: ["35–40 min Z2, HS 140–152", "BBJ-techniek, sandbag lunges, farmers carry: 3 rondes, ±10 min, licht en vlot", "Kwaliteit boven kracht"] },
-      { id: "wo", day: "wo", name: "Compromised run-sim (licht)", type: "hyrox", tags: ["run", "wall balls"], rpe: 7,
-        details: ["Inlopen 1,5 km + mobility", "3× (1 km @ 4:25/km + 15 wall balls Pro-gewicht)", "Uitlopen + 5 min mobility", "Klaar vóór 10:30 · UWV-webinar 13:00"] },
-      { id: "do", day: "do", name: "Lower knie/heupvriendelijk (licht)", type: "kracht", tags: ["kracht", "knie/heup"], rpe: 6,
-        details: ["Goblet squat, RDL, step-ups, glute bridge 3×8–10", "Heup/knie-mobility + core 10–15 min", "Geen nieuwe zware prikkel · STOP als knie of heup opspeelt"] },
-      { id: "vr", day: "vr", name: "Easy run + mobility", type: "duur", tags: ["run", "Z2"], rpe: 4,
-        details: ["30 min easy, HS 140–152", "15 min heup/knie-mobility", "RPE ≤4 · frisheid voor zaterdag"] },
-      { id: "za", day: "za", name: "Racetempo-opener", type: "interval", tags: ["run", "racetempo"], rpe: 7,
-        details: ["6–7 km totaal", "2 km inlopen", "3× 1 km @ 4:20/km met 2 min dribbel", "Uitlopen · laatste echte prikkel voor de race"] },
-      { id: "zo", day: "zo", name: "Rust", type: "rust", tags: ["rust"], rpe: 1,
-        details: ["Volledige rust", "Race-logistiek: tickets, spullen, eten · race 29 nov"] }
+      { id: "ma", day: "ma", name: "Upper licht (raceweek)", type: "kracht", tags: ["kracht", "16:00"], rpe: 6, dayType: "normaal",
+        details: ["16:00–17:30 · ~50 min", "Bovenlichaam push/pull (bankdrukken, rows, pull-ups) 2–3×6–8, 2 reps in reserve", "Iets lichter dan normaal · nooit tot falen", "Core + heup/knie-mobility 10 min"] },
+      { id: "di", day: "di", name: "Partnertraining stations (Double)", type: "hyrox", tags: ["partner", "stations", "16:00"], rpe: 6, dayType: "normaal",
+        details: ["16:00–17:30 · met je Double-partner · RPE max 6", "10 min inlopen + mobility", "Alle 8 stations op laag volume: SkiErg, sled push, sled pull, BBJ, roeien, farmers, sandbag lunges, wall balls", "Wissels oefenen: spreek per station af wie wat doet en waar jullie wisselen", "2–3× 400 m op racetempo (4:20–4:30/km), rustig terug"] },
+      { id: "wo", day: "wo", name: "Z2 run + strides", type: "duur", tags: ["run", "Z2", "16:00"], rpe: 4, dayType: "normaal",
+        details: ["16:00–17:30", "30–35 min Z2, HS 140–152", "4× 20 s strides, ruim rustig terug", "Écht easy houden"] },
+      { id: "do", day: "do", name: "Sharpener racetempo", type: "interval", tags: ["run", "racetempo", "fysio vandaag – afstemmen"], rpe: 7, dayType: "normaal",
+        details: ["Fysio vandaag (12:00) – afstemmen: tijd en inhoud overleggen na de fysio", "10 min inlopen", "3× 1 km @ 4:20–4:30/km met 2 min rust", "2× 250 m SkiErg + 2× 250 m roeien, easy-moderate", "Uitlopen 5–10 min"] },
+      { id: "vr", day: "vr", name: "Rust + mobility (laaddag)", type: "rust", tags: ["rust", "laad"], rpe: 1, dayType: "laad",
+        details: ["Geen training", "15 min heup/knie-mobility", "Laaddag: extra koolhydraten, weinig vezels"] },
+      { id: "za", day: "za", name: "Shakeout + activatie (laaddag)", type: "duur", tags: ["run", "Z1", "laad", "16:00"], rpe: 3, dayType: "laad",
+        details: ["16:00–17:30", "20 min Z1 (HS < 145) + 4 strides", "Lichte station-activatie: paar wall balls, korte lunges, licht farmers/sled", "Fris blijven · laaddag"] },
+      { id: "zo", day: "zo", name: "RACE · Hyrox Utrecht", type: "hyrox", tags: ["race", "Double Men Open"], rpe: 9, dayType: "race",
+        details: ["Doel: sub 60 · Double Men Open", "Raceontbijt 3 uur vóór de start (getest bij de opener)", "Evt. cafeïne 1 uur vóór de start, alleen als je dat gewend bent", "Niets nieuws op racedag"] }
       // optioneel per sessie: dayType: "laad"  → bepaalt welk voedingsplan die dag getoond wordt
     ]
   },
